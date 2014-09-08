@@ -38,7 +38,7 @@ public class PostsServlet extends HttpServlet {
         String postContent = request.getParameter("postContent");
         
         Post p = new Post(postContent, request.getRemoteUser(), new Date());
-        new PostDao().addPost(p);
+        new PostDao("jdbc:sqlite:/home/chin/tweeter.db").addPost(p);
         
         response.sendRedirect("Home");
     }

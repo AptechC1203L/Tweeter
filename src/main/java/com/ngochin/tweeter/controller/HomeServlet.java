@@ -37,7 +37,7 @@ public class HomeServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        request.setAttribute("posts", new PostDao().getAllPosts());
+        request.setAttribute("posts", new PostDao("jdbc:sqlite:/home/chin/tweeter.db").getAllPosts());
         RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
         rd.forward(request, response);
     }
