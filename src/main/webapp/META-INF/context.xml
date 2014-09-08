@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context antiJARLocking="true" path="/Tweeter"/>
+<Context antiJARLocking="true" path="/Tweeter">
+    <Realm className="org.apache.catalina.realm.JDBCRealm"
+           connectionName="" connectionPassword=""
+           connectionURL="jdbc:sqlite:/home/chin/tweeter.db"
+           driverName="org.sqlite.JDBC"
+           userTable="users"
+           userNameCol="user_name"
+           userCredCol="password"
+           userRoleTable="user_roles"
+           roleNameCol="role_name">
+    </Realm>
+</Context>
