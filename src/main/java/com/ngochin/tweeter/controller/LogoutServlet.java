@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.ngochin.tweeter.controller;
 
 import java.io.IOException;
@@ -32,7 +31,7 @@ public class LogoutServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.logout();        
+        request.logout();
         response.sendRedirect("");
     }
 
