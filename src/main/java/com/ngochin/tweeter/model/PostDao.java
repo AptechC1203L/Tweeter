@@ -73,7 +73,7 @@ public class PostDao {
         try (Connection conn = DriverManager.getConnection(connectionString)) {
             Statement st = conn.createStatement();
             ResultSet rs = 
-                st.executeQuery("select * from posts where user_name=" + username);
+                st.executeQuery("select * from posts where user_name=\"" + username + "\"");
 
             while (rs.next()) {
                 posts.add(postFromRs(rs));

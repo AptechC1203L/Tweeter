@@ -47,7 +47,7 @@ public class UserDao {
     public User getUser(String username) throws SQLException {
         try (Connection conn = DriverManager.getConnection(connectionString)) {
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("select * from users where user_name=" + username);
+            ResultSet rs = st.executeQuery("select * from users where user_name=\"" + username + "\"");
 
             while (rs.next()) {
                 User u = userFromRs(rs);
