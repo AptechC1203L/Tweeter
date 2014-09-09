@@ -45,37 +45,34 @@ public class UsersServlet extends HttpServlet {
         DaoFactory daoFactory = new DaoFactory(dbUrl);
         
         UserDao userDao = daoFactory.getUserDao();
-        try {
-            if (request.getMethod().equals("POST")) {
-                String userName = request.getParameter("username");
-                String fullName = request.getParameter("fullname");
-                String password = request.getParameter("password");
-                String confirmedPassword = request.getParameter("confirmed_password");
-                String[] roles = request.getParameterValues("roles");
 
-                if (password.equals(confirmedPassword)) {
-                    User u = new User();
-                    u.setUserId(userName);
-                    u.setFullName(fullName);
-                    
-                    for (String role: roles) {
-                        u.addRole(role);
-                    }
+        if (request.getMethod().equals("POST")) {
+            String userName = request.getParameter("username");
+            String fullName = request.getParameter("fullname");
+            String password = request.getParameter("password");
+            String confirmedPassword = request.getParameter("confirmed_password");
+            String[] roles = request.getParameterValues("roles");
 
-                    // FIXME: Digest?
-                    u.setPassword(password);
+            if (password.equals(confirmedPassword)) {
+                User u = new User();
+                u.setUserId(userName);
+                u.setFullName(fullName);
 
-                    userDao.addUser(u);
-                } else {
-                    // FIXME: Show an error message here.
+                for (String role: roles) {
+                    u.addRole(role);
                 }
-            }
 
-            request.setAttribute("users", userDao.getAllUsers());
-        } catch (SQLException ex) {
-            Logger.getLogger(UsersServlet.class.getName()).log(Level.SEVERE, null, ex);
+                // FIXME: Digest?
+                u.setPassword(password);
+
+                userDao.addUser(u);
+            } else {
+                // FIXME: Show an error message here.
+            }
         }
-        
+
+        request.setAttribute("users", userDao.getAllUsers());
+
         RequestDispatcher rd = request.getRequestDispatcher("/users.jsp");
         rd.forward(request, response);
     }
