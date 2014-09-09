@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author chin
  */
-@WebServlet(name = "UsersServlet", urlPatterns = {"/admin/users"})
+@WebServlet(name = "UsersServlet", urlPatterns = {"/admin"})
 public class UsersServlet extends HttpServlet {
 
     /**
@@ -69,7 +69,7 @@ public class UsersServlet extends HttpServlet {
 
         request.setAttribute("users", userDao.getAllUsers());
 
-        RequestDispatcher rd = request.getRequestDispatcher("/users.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/admin.jsp");
         rd.forward(request, response);
     }
 
