@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author chin
  */
-@WebServlet(name = "UsersServlet", urlPatterns = {"/admin"})
-public class UsersServlet extends HttpServlet {
+@WebServlet(name = "AdminServlet", urlPatterns = {"/admin"})
+public class AdminServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
