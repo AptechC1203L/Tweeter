@@ -7,7 +7,10 @@
 package com.ngochin.tweeter.controller;
 
 import com.ngochin.tweeter.model.DaoFactory;
+import com.ngochin.tweeter.model.Post;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,7 +40,10 @@ public class HomeServlet extends HttpServlet {
         String dbUrl = getServletContext().getInitParameter("dbUrl");
         DaoFactory daoFactory = new DaoFactory(dbUrl);
 
-        request.setAttribute("posts", daoFactory.getPostDao().getAllPosts());
+        List<Post> allPosts = daoFactory.getPostDao().getAllPosts();
+
+        // FIXME: Latest should appear first.
+        request.setAttribute("posts", allPosts);
 
         RequestDispatcher rd = request.getRequestDispatcher("/home.jsp");
         rd.forward(request, response);
