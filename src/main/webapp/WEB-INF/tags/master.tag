@@ -36,6 +36,11 @@
         </style>
     </head>
     <body>
+        <a href="${pageContext.servletContext.contextPath}">Home</a>
+        <c:if test="${pageContext.request.isUserInRole('admin') == true}">
+            <a href="${pageContext.servletContext.contextPath}/admin">Admin</a>
+        </c:if>
+
         <form action="${pageContext.servletContext.contextPath}/logout">
             <input type="submit" value="Logout" />
         </form>
