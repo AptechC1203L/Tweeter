@@ -18,6 +18,8 @@ public class Comment {
     private String userId;
     private int postId;
     private Date timestamp;
+    private UserDao userDao;
+    private PostDao postDao;
 
     public Comment() {
     }
@@ -60,5 +62,21 @@ public class Comment {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+    
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    public void setPostDao(PostDao postDao) {
+        this.postDao = postDao;
+    }
+    
+    public User getUser() {
+        return userDao.getUser(userId);
+    }
+    
+    public Post getPost() {
+        return postDao.getPost(postId);
     }
 }

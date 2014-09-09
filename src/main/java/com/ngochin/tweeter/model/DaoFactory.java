@@ -18,7 +18,7 @@ public class DaoFactory {
     }
 
     public CommentDao getCommentDao() {
-        return new CommentDao(connectionString);
+        return new CommentDao(connectionString, this);
     }
     
     public PostDao getPostDao() {
