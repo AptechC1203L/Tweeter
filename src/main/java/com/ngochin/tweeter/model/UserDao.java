@@ -5,29 +5,58 @@
  */
 package com.ngochin.tweeter.model;
 
-import java.util.ArrayList;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 /**
  *
  * @author chin
  */
 public class UserDao {
-    private static ArrayList<User> users;
+    private final String connectionString;
 
-    public UserDao() {
-        if (users == null) {
-            users = new ArrayList<User>();
-            users.add(new User("chin", "Trung Ngo"));
+    public UserDao(String connectionString) {
+        this.connectionString = connectionString;
+    }
+    
+    public UserDao addUser(User u) throws SQLException {
+        try (Connection conn = DriverManager.getConnection(connectionString)) {
+            Statement st = conn.createStatement();
+
+            st.executeUpdate(
+                    String.format("insert into users (user_name, full_name, password) "
+                            + "values (\"%s\", \"%s\", \"%s\")",
+                            u.getUserId(), u.getFullName(), u.getPassword()));
         }
+        
+        return this;
     }
 
-    public User getUser(String username) {
-        for (User u : users) {
-            if (u.getUserId().equals(username)) {
-                return u;
+    public User getUser(String username) throws SQLException {
+        try (Connection conn = DriverManager.getConnection(connectionString)) {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("select * from users where user_name=" + username);
+
+            while (rs.next()) {
+                return userFromRs(rs);
             }
         }
 
         return null;
+    }
+
+    private User userFromRs(ResultSet rs) throws SQLException {
+        String userName = rs.getString("user_name");
+        String fullName = rs.getString("full_name");
+        String password = rs.getString("password");
+
+        User u = new User();
+        u.setUserId(userName);
+        u.setFullName(fullName);
+        u.setPassword(password);
+        
+        return u;
     }
 }
