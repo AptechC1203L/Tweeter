@@ -27,11 +27,12 @@ public class UserDao {
         try (Connection conn = DriverManager.getConnection(connectionString)) {
             Statement st = conn.createStatement();
 
+            // FIXME: Need safe state if arguments are invalid.
             st.executeUpdate(
                     String.format("insert into users (user_name, full_name, password) "
                             + "values (\"%s\", \"%s\", \"%s\")",
                             u.getUserId(), u.getFullName(), u.getPassword()));
-            
+
             for (String role : u.getRoles()) {
                 st.executeUpdate(
                         String.format("insert into user_roles (user_name, role_name) "
