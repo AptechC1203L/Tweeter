@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author chin
  */
-@WebServlet(name = "CommentsServlet", urlPatterns = {"/Comments"})
+@WebServlet(name = "CommentsServlet", urlPatterns = {"/comments"})
 public class CommentsServlet extends HttpServlet {
 
     /**

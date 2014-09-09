@@ -32,11 +32,11 @@
         </style>
     </head>
     <body>
-        <form action="Logout">
+        <form action="logout">
             <input type="submit" value="Logout" />
         </form>
 
-        <form action="Posts" method="POST">
+        <form action="posts" method="POST">
             <input type="text" name="postContent" value="" />
             <input type="submit" value="Post" />
         </form>
@@ -50,7 +50,7 @@
                     Comment from ${comment.getUserId()}: ${comment.getText()}<br/>
                 </c:forEach>
 
-                <form action="Comments" method="POST">
+                <form action="comments" method="POST">
                     <input type="text" name="text" value="" />
                     <input type="submit" value="Comment" />
                     <input type="hidden" name="postId" value="${post.getId()}"/>

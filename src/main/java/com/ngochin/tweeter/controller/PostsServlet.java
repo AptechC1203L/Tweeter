@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author chin
  */
-@WebServlet(name = "PostsServlet", urlPatterns = {"/Posts"})
+@WebServlet(name = "PostsServlet", urlPatterns = {"/posts"})
 public class PostsServlet extends HttpServlet {
 
     /**
