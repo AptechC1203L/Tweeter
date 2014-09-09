@@ -31,6 +31,13 @@ public class UserDao {
                     String.format("insert into users (user_name, full_name, password) "
                             + "values (\"%s\", \"%s\", \"%s\")",
                             u.getUserId(), u.getFullName(), u.getPassword()));
+            
+            for (String role : u.getRoles()) {
+                st.executeUpdate(
+                        String.format("insert into user_roles (user_name, role_name) "
+                                + "values (\"%s\", \"%s\")",
+                                u.getUserId(), role));
+            }
         }
         
         return this;
@@ -42,7 +49,17 @@ public class UserDao {
             ResultSet rs = st.executeQuery("select * from users where user_name=" + username);
 
             while (rs.next()) {
-                return userFromRs(rs);
+                User u = userFromRs(rs);
+                
+                ResultSet roles = st.executeQuery(
+                        "select role_name from user_roles where user_name=\""
+                        + u.getUserId() + "\"");
+
+                while (roles.next()) {
+                    u.addRole(roles.getString("role_name"));
+                }
+                
+                return u;
             }
         }
 
@@ -57,7 +74,17 @@ public class UserDao {
             ResultSet rs = st.executeQuery("select * from users");
 
             while (rs.next()) {
-                users.add(userFromRs(rs));
+                User u = userFromRs(rs);
+                
+                ResultSet roles = st.executeQuery(
+                        "select (role_name) from user_roles where user_name=\"" 
+                        + u.getUserId() + "\"");
+
+                while (roles.next()) {
+                    u.addRole(roles.getString("role_name"));
+                }
+
+                users.add(u);
             }
         }
         
