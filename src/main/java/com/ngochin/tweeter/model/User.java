@@ -13,6 +13,7 @@ package com.ngochin.tweeter.model;
 public class User {
     private String userId;
     private String fullName;
+    private String password;
     
     public User() {
     }
@@ -31,5 +32,13 @@ public class User {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
