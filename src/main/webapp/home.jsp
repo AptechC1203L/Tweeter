@@ -7,7 +7,7 @@
     "http://www.w3.org/TR/html4/loose.dtd">
 
 <h:master title="Tweeter">
-    <form action="posts" method="POST">
+    <form action="${pageContext.servletContext.contextPath}/posts" method="POST">
         <input type="text" name="postContent" value="" />
         <input type="submit" value="Post" />
     </form>

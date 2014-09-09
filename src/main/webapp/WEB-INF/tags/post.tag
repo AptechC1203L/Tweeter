@@ -12,7 +12,7 @@
 
 <div class="post">
     <div class="username">
-        <a href="${pageContext.request.contextPath}/user/${post.getUsername()}">${post.getPoster().getFullName()}</a>
+        <a href="${pageContext.servletContext.contextPath}/user/${post.getUsername()}">${post.getPoster().getFullName()}</a>
     </div>
         <div class="post-time-stamp">${applicationScope.prettyTime.format(post.getTimestamp())}</div>
     <div class="post-content">${post.getText()}</div>
@@ -21,7 +21,7 @@
         Comment from ${comment.getUser().getFullName()}: ${comment.getText()}<br/>
     </c:forEach>
 
-    <form action="comments" method="POST">
+    <form action="${pageContext.servletContext.contextPath}/comments" method="POST">
         <input type="text" name="text" value="" />
         <input type="submit" value="Comment" />
         <input type="hidden" name="postId" value="${post.getId()}"/>
