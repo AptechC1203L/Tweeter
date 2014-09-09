@@ -42,6 +42,7 @@ public class CommentsServlet extends HttpServlet {
         
         Comment c = new Comment();
 
+        // FIXME: Empty comment?
         c.setText(commentText);
         c.setUserId(request.getRemoteUser());
         c.setPostId(postId);
