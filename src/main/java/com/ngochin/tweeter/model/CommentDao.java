@@ -14,6 +14,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,19 +28,21 @@ public class CommentDao {
         this.connectionString = connectionString;
     }
 
-    public CommentDao addComment(Comment c) throws SQLException {
+    public boolean addComment(Comment c) {
         try (Connection conn = DriverManager.getConnection(connectionString)) {
             Statement st = conn.createStatement();
-            st.executeUpdate(
+            int count = st.executeUpdate(
                     String.format("insert into comments (user_name, post_id, creation_time, text) "
                             + "values (\"%s\", \"%d\", datetime(\"now\"), \"%s\")",
                             c.getUserId(), c.getPostId(), c.getText()));
+            return count == 1;
+        } catch (SQLException ex) {
+            Logger.getLogger(CommentDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-
-        return this;
     }
 
-    public List<Comment> getCommentsOnPost(int postId) throws SQLException {
+    public List<Comment> getCommentsOnPost(int postId) {
         ArrayList<Comment> commentsOnPost = new ArrayList<>();
         
         try (Connection conn = DriverManager.getConnection(connectionString)) {
@@ -48,6 +52,8 @@ public class CommentDao {
             while (rs.next()) {
                 commentsOnPost.add(commentFromRs(rs));
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(CommentDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return commentsOnPost;

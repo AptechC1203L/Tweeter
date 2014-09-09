@@ -47,14 +47,9 @@ public class CommentsServlet extends HttpServlet {
         c.setUserId(request.getRemoteUser());
         c.setPostId(postId);
 
-        try {
-            String dbUrl = getServletContext().getInitParameter("dbUrl");
-            DaoFactory daoFactory = new DaoFactory(dbUrl);
-            daoFactory.getCommentDao().addComment(c);
-        } catch (SQLException ex) {
-            // FIXME: Implement some error message here.
-            Logger.getLogger(CommentsServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String dbUrl = getServletContext().getInitParameter("dbUrl");
+        DaoFactory daoFactory = new DaoFactory(dbUrl);
+        daoFactory.getCommentDao().addComment(c);
         
         response.sendRedirect("Home");
     }
