@@ -7,7 +7,6 @@
 package com.ngochin.tweeter.model;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  *
@@ -20,7 +19,6 @@ public class Post {
     private int id = 0;
     
     public Post() {
-        
     }
 
     public Post(String text, String username, Date timestamp) {
@@ -59,9 +57,5 @@ public class Post {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
-    }
-    
-    public List<Comment> getComments() {
-        return new CommentDao().getCommentsOnPost(id);
     }
 }
