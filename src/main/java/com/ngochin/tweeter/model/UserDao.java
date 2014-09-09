@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author chin
@@ -45,6 +47,21 @@ public class UserDao {
         }
 
         return null;
+    }
+    
+    public List<User> getAllUsers() throws SQLException {
+        ArrayList<User> users = new ArrayList<>();
+
+        try (Connection conn = DriverManager.getConnection(connectionString)) {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("select * from users");
+
+            while (rs.next()) {
+                users.add(userFromRs(rs));
+            }
+        }
+        
+        return users;
     }
 
     private User userFromRs(ResultSet rs) throws SQLException {
