@@ -7,10 +7,7 @@
 package com.ngochin.tweeter.controller;
 
 import com.ngochin.tweeter.model.DaoFactory;
-import com.ngochin.tweeter.model.Post;
-import com.ngochin.tweeter.model.PostDao;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
