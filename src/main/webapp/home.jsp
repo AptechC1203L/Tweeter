@@ -40,14 +40,13 @@
             <input type="text" name="postContent" value="" />
             <input type="submit" value="Post" />
         </form>
-
         <c:forEach var="post" items="${requestScope.posts}">
             <div class="post">
                 <div class="username">${post.getUsername()}</div>
                 <div class="post-time-stamp">${post.getTimestamp()}</div>
                 <div class="post-content">${post.getText()}</div>
-                
-                <c:forEach var="comment" items="${post.getComments()}">
+
+                <c:forEach var="comment" items="${requestScope.commentDao.getCommentsOnPost(post.getId())}">
                     Comment from ${comment.getUserId()}: ${comment.getText()}<br/>
                 </c:forEach>
 
