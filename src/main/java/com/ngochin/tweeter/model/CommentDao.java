@@ -20,7 +20,7 @@ import java.util.List;
  * @author chin
  */
 public class CommentDao {
-    private String connectionString;
+    private final String connectionString;
 
     public CommentDao(String connectionString) {
         this.connectionString = connectionString;
