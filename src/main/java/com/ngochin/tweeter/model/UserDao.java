@@ -76,7 +76,8 @@ public class UserDao {
             while (rs.next()) {
                 User u = userFromRs(rs);
                 
-                ResultSet roles = st.executeQuery(
+                Statement roleQuery = conn.createStatement();
+                ResultSet roles = roleQuery.executeQuery(
                         "select (role_name) from user_roles where user_name=\"" 
                         + u.getUserId() + "\"");
 
