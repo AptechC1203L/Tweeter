@@ -36,19 +36,15 @@ public class HomeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            response.setContentType("text/html;charset=UTF-8");
-            String dbUrl = getServletContext().getInitParameter("dbUrl");
-            DaoFactory daoFactory = new DaoFactory(dbUrl);
-            
-            request.setAttribute("posts", daoFactory.getPostDao().getAllPosts());
-            request.setAttribute("commentDao", daoFactory.getCommentDao());
+        response.setContentType("text/html;charset=UTF-8");
+        String dbUrl = getServletContext().getInitParameter("dbUrl");
+        DaoFactory daoFactory = new DaoFactory(dbUrl);
 
-            RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
-            rd.forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        request.setAttribute("posts", daoFactory.getPostDao().getAllPosts());
+        request.setAttribute("commentDao", daoFactory.getCommentDao());
+
+        RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
