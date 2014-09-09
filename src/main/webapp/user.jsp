@@ -10,4 +10,8 @@
 
 <h:master title="${requestScope.user.getFullName()}'s Homepage">
     ${requestScope.user.getFullName()}'s Homepage <br/>
+    
+    <c:forEach var="post" items="${requestScope.user.getPosts()}">
+        <h:post post="${post}"/>
+    </c:forEach>
 </h:master>

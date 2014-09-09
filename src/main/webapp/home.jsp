@@ -13,22 +13,6 @@
     </form>
 
     <c:forEach var="post" items="${requestScope.posts}">
-        <div class="post">
-            <div class="username">
-                <a href="user/${post.getUsername()}">${post.getPoster().getFullName()}</a>
-            </div>
-            <div class="post-time-stamp">${post.getTimestamp()}</div>
-            <div class="post-content">${post.getText()}</div>
-
-            <c:forEach var="comment" items="${post.getComments()}">
-                Comment from ${comment.getUser().getFullName()}: ${comment.getText()}<br/>
-            </c:forEach>
-
-            <form action="comments" method="POST">
-                <input type="text" name="text" value="" />
-                <input type="submit" value="Comment" />
-                <input type="hidden" name="postId" value="${post.getId()}"/>
-            </form>
-        </div>
+        <h:post post="${post}"/>
     </c:forEach>
 </h:master>
