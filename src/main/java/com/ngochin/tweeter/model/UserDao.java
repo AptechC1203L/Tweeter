@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author chin
@@ -23,12 +25,17 @@ public class UserDao {
         this.connectionString = connectionString;
     }
     
-    public UserDao addUser(User u) throws SQLException {
+    /**
+     * Add a user.
+     * @param u
+     * @return Whether the user was added.
+     */
+    public boolean addUser(User u) {
         try (Connection conn = DriverManager.getConnection(connectionString)) {
             Statement st = conn.createStatement();
 
             // FIXME: Need safe state if arguments are invalid.
-            st.executeUpdate(
+            int count = st.executeUpdate(
                     String.format("insert into users (user_name, full_name, password) "
                             + "values (\"%s\", \"%s\", \"%s\")",
                             u.getUserId(), u.getFullName(), u.getPassword()));
@@ -39,12 +46,15 @@ public class UserDao {
                                 + "values (\"%s\", \"%s\")",
                                 u.getUserId(), role));
             }
+            
+            return count == 1;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-        
-        return this;
     }
 
-    public User getUser(String username) throws SQLException {
+    public User getUser(String username) {
         try (Connection conn = DriverManager.getConnection(connectionString)) {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery("select * from users where user_name=\"" + username + "\"");
@@ -62,12 +72,14 @@ public class UserDao {
                 
                 return u;
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return null;
     }
     
-    public List<User> getAllUsers() throws SQLException {
+    public List<User> getAllUsers() {
         ArrayList<User> users = new ArrayList<>();
 
         try (Connection conn = DriverManager.getConnection(connectionString)) {
@@ -88,6 +100,8 @@ public class UserDao {
 
                 users.add(u);
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return users;
