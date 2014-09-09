@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Tweeter Login</title>
     </head>
     <body>
         <form method="POST" action="j_security_check">
