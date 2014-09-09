@@ -42,7 +42,10 @@ public class PostsServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             String postContent = request.getParameter("postContent");
             
-            Post p = new Post(postContent, request.getRemoteUser(), new Date());
+            Post p = new Post();
+            p.setText(postContent);
+            p.setUsername(request.getRemoteUser());
+
             String connStr = "jdbc:sqlite:/home/chin/tweeter.db";
             new DaoFactory(connStr).getPostDao().addPost(p);
             

@@ -17,14 +17,8 @@ public class Post {
     private String username = "";
     private Date timestamp = null;
     private int id = 0;
-    
-    public Post() {
-    }
 
-    public Post(String text, String username, Date timestamp) {
-        this.text = text;
-        this.username = username;
-        this.timestamp = timestamp;
+    public Post() {
     }
 
     public int getId() {
