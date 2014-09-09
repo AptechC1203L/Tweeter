@@ -6,10 +6,14 @@
 
 package com.ngochin.tweeter.controller;
 
+import com.ngochin.tweeter.model.DaoFactory;
 import com.ngochin.tweeter.model.Post;
 import com.ngochin.tweeter.model.PostDao;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,11 +39,18 @@ public class HomeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            DaoFactory daoFactory = new DaoFactory("jdbc:sqlite:/home/chin/tweeter.db");
+            
+            request.setAttribute("posts", daoFactory.getPostDao().getAllPosts());
+            request.setAttribute("commentDao", daoFactory.getCommentDao());
 
-        request.setAttribute("posts", new PostDao("jdbc:sqlite:/home/chin/tweeter.db").getAllPosts());
-        RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
-        rd.forward(request, response);
+            RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
+            rd.forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(HomeServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

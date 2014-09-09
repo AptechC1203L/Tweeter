@@ -7,11 +7,11 @@
 package com.ngochin.tweeter.controller;
 
 import com.ngochin.tweeter.model.Comment;
-import com.ngochin.tweeter.model.CommentDao;
+import com.ngochin.tweeter.model.DaoFactory;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Date;
-import javax.servlet.RequestDispatcher;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,9 +40,18 @@ public class CommentsServlet extends HttpServlet {
         String commentText = request.getParameter("text");
         int postId = Integer.parseInt(request.getParameter("postId"));
         
-        Comment c = new Comment(commentText,
-                request.getRemoteUser(), postId, new Date());
-        new CommentDao().addComment(c);
+        Comment c = new Comment();
+
+        c.setText(commentText);
+        c.setUserId(request.getRemoteUser());
+        c.setPostId(postId);
+
+        try {
+            String connStr = "jdbc:sqlite:/home/chin/tweeter.db";
+            new DaoFactory(connStr).getCommentDao().addComment(c);
+        } catch (SQLException ex) {
+            Logger.getLogger(CommentsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         response.sendRedirect("Home");
     }
