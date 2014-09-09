@@ -48,7 +48,7 @@ public class CommentsServlet extends HttpServlet {
         DaoFactory daoFactory = new DaoFactory(dbUrl);
         daoFactory.getCommentDao().addComment(c);
         
-        response.sendRedirect("Home");
+        response.sendRedirect(request.getHeader("referer"));
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

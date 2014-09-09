@@ -44,7 +44,7 @@ public class PostsServlet extends HttpServlet {
         DaoFactory daoFactory = new DaoFactory(dbUrl);
         daoFactory.getPostDao().addPost(p);
 
-        response.sendRedirect("Home");
+        response.sendRedirect(request.getHeader("referer"));
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
