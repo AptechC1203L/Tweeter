@@ -29,6 +29,12 @@
         <label for="password">Confirm Password:</label>
         <input type="password" id="confirmed_password" name="confirmed_password" value="" />
         <br/>
+        
+        <select multiple name="roles">
+            <option>admin</option>
+            <option>user</option>
+        </select>
+        <br/>
         <input type="submit" value="Create" />
     </form>
 

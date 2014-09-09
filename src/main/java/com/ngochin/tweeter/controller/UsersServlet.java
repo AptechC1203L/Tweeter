@@ -51,11 +51,16 @@ public class UsersServlet extends HttpServlet {
                 String fullName = request.getParameter("fullname");
                 String password = request.getParameter("password");
                 String confirmedPassword = request.getParameter("confirmed_password");
+                String[] roles = request.getParameterValues("roles");
 
                 if (password.equals(confirmedPassword)) {
                     User u = new User();
                     u.setUserId(userName);
                     u.setFullName(fullName);
+                    
+                    for (String role: roles) {
+                        u.addRole(role);
+                    }
 
                     // FIXME: Digest?
                     u.setPassword(password);
