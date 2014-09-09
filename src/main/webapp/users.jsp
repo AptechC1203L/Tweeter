@@ -1,21 +1,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%-- 
-    Document   : users
-    Created on : Sep 9, 2014, 11:47:14 AM
-    Author     : chin
---%>
-
+<%@taglib prefix="h" tagdir="/WEB-INF/tags"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Tweeter Users</title>
-    </head>
-    <body>
-        
+<h:master title="Tweeter Users">
     Create new user:
-    
+
     <form action="" method="POST">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" value="" />
@@ -29,7 +18,7 @@
         <label for="password">Confirm Password:</label>
         <input type="password" id="confirmed_password" name="confirmed_password" value="" />
         <br/>
-        
+
         <select multiple name="roles">
             <option>admin</option>
             <option>user</option>
@@ -41,5 +30,4 @@
     <c:forEach var="user" items="${requestScope.users}">
         ${user.getUserId()}<br/>
     </c:forEach>
-    </body>
-</html>
+</h:master>
