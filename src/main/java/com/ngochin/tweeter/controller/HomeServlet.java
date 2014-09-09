@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author chin
  */
-@WebServlet(name = "HomeServlet", urlPatterns = {"/Home"})
+@WebServlet(name = "HomeServlet", urlPatterns = {"/"})
 public class HomeServlet extends HttpServlet {
 
     /**
@@ -41,7 +41,8 @@ public class HomeServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             response.setContentType("text/html;charset=UTF-8");
-            DaoFactory daoFactory = new DaoFactory("jdbc:sqlite:/home/chin/tweeter.db");
+            String dbUrl = getServletContext().getInitParameter("dbUrl");
+            DaoFactory daoFactory = new DaoFactory(dbUrl);
             
             request.setAttribute("posts", daoFactory.getPostDao().getAllPosts());
             request.setAttribute("commentDao", daoFactory.getCommentDao());

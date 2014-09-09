@@ -46,8 +46,9 @@ public class PostsServlet extends HttpServlet {
             p.setText(postContent);
             p.setUsername(request.getRemoteUser());
 
-            String connStr = "jdbc:sqlite:/home/chin/tweeter.db";
-            new DaoFactory(connStr).getPostDao().addPost(p);
+            String dbUrl = getServletContext().getInitParameter("dbUrl");
+            DaoFactory daoFactory = new DaoFactory(dbUrl);
+            daoFactory.getPostDao().addPost(p);
             
             response.sendRedirect("Home");
         } catch (SQLException ex) {

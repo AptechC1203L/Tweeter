@@ -47,9 +47,11 @@ public class CommentsServlet extends HttpServlet {
         c.setPostId(postId);
 
         try {
-            String connStr = "jdbc:sqlite:/home/chin/tweeter.db";
-            new DaoFactory(connStr).getCommentDao().addComment(c);
+            String dbUrl = getServletContext().getInitParameter("dbUrl");
+            DaoFactory daoFactory = new DaoFactory(dbUrl);
+            daoFactory.getCommentDao().addComment(c);
         } catch (SQLException ex) {
+            // FIXME: Implement some error message here.
             Logger.getLogger(CommentsServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
