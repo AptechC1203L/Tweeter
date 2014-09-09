@@ -42,7 +42,9 @@
         </form>
         <c:forEach var="post" items="${requestScope.posts}">
             <div class="post">
-                <div class="username">${post.getUsername()}</div>
+                <div class="username">
+                    <a href="user/${post.getUsername()}">${post.getUsername()}</a>
+                </div>
                 <div class="post-time-stamp">${post.getTimestamp()}</div>
                 <div class="post-content">${post.getText()}</div>
 
