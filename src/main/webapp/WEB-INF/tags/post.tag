@@ -14,7 +14,7 @@
     <div class="username">
         <a href="${pageContext.request.contextPath}/user/${post.getUsername()}">${post.getPoster().getFullName()}</a>
     </div>
-    <div class="post-time-stamp">${post.getTimestamp()}</div>
+        <div class="post-time-stamp">${applicationScope.prettyTime.format(post.getTimestamp())}</div>
     <div class="post-content">${post.getText()}</div>
 
     <c:forEach var="comment" items="${post.getComments()}">
