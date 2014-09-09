@@ -10,6 +10,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,12 +53,19 @@ public class PostDao {
 
         int id = rs.getInt("id");
         String userName = rs.getString("user_name");
-        Date creationTime = rs.getTime("creation_time");
+        String creationTime = rs.getString("creation_time");
         String content = rs.getString("content");
+        DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         p.setId(id);
         p.setText(content);
-        p.setTimestamp(creationTime);
+        try {
+            // FIXME: timestamp seems wrong
+            p.setTimestamp(fmt.parse(creationTime));
+        } catch (ParseException ex) {
+            Logger.getLogger(PostDao.class.getName()).log(Level.SEVERE, null, ex);
+            p.setTimestamp(new Date());
+        }
         p.setUsername(userName);
         p.setCommentDao(factory.getCommentDao());
         p.setUserDao(factory.getUserDao());
