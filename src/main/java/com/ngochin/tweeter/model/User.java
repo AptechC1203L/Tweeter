@@ -11,7 +11,7 @@ package com.ngochin.tweeter.model;
  * @author chin
  */
 public class User {
-    private final String userId;
+    private String userId;
     private String fullName;
     
     public User(String userId, String fullName) {
@@ -29,5 +29,9 @@ public class User {
 
     public String getUserId() {
         return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
