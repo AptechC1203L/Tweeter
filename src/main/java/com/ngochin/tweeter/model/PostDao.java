@@ -7,7 +7,6 @@ package com.ngochin.tweeter.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -35,7 +34,7 @@ public class PostDao {
                         + "values (\"%s\", datetime(\"now\"), \"%s\")",
                         p.getUsername(), p.getText()));
         }
-        
+
         return this;
     }
     
