@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <context-param>
+        <param-name>dbUrl</param-name>
+        <param-value>jdbc:sqlite:/home/chin/tweeter.db</param-value>
+    </context-param>
+
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>home</web-resource-name>
@@ -15,7 +19,6 @@
             <role-name>user</role-name>
         </auth-constraint>
     </security-constraint>
-    
     <login-config>
         <auth-method>FORM</auth-method>
         <form-login-config>
