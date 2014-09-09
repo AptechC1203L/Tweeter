@@ -6,6 +6,9 @@
 
 package com.ngochin.tweeter.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author chin
@@ -14,8 +17,10 @@ public class User {
     private String userId;
     private String fullName;
     private String password;
+    private List<String> roles;
     
     public User() {
+        this.roles = new ArrayList<>();
     }
 
     public String getFullName() {
@@ -40,5 +45,23 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public void addRole(String role) {
+        this.roles.add(role);
+    }
+    
+    public boolean hasRole(String role) {
+        for (String r : roles) {
+            if (r.equals(role)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    public List<String> getRoles() {
+        return this.roles;
     }
 }
