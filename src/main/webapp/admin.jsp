@@ -5,7 +5,7 @@
 <h:master title="Tweeter Users">
     Create new user:
 
-    <form action="" method="POST">
+    <form action="#" method="POST">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" value="" />
         <br/>
