@@ -23,9 +23,11 @@ import java.util.logging.Logger;
 public class PostDao {
 
     private String connectionString;
+    private DaoFactory factory;
 
-    public PostDao(String connectionString) {
+    public PostDao(String connectionString, DaoFactory factory) {
         this.connectionString = connectionString;
+        this.factory = factory;
     }
 
     public boolean addPost(Post p) {
@@ -55,6 +57,8 @@ public class PostDao {
         p.setText(content);
         p.setTimestamp(creationTime);
         p.setUsername(userName);
+        p.setCommentDao(factory.getCommentDao());
+        p.setUserDao(factory.getUserDao());
 
         return p;
     }

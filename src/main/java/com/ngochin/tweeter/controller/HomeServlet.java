@@ -41,7 +41,6 @@ public class HomeServlet extends HttpServlet {
         DaoFactory daoFactory = new DaoFactory(dbUrl);
 
         request.setAttribute("posts", daoFactory.getPostDao().getAllPosts());
-        request.setAttribute("commentDao", daoFactory.getCommentDao());
 
         RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
         rd.forward(request, response);

@@ -22,7 +22,7 @@ public class DaoFactory {
     }
     
     public PostDao getPostDao() {
-        return new PostDao(connectionString);
+        return new PostDao(connectionString, this);
     }
     
     public UserDao getUserDao() {
