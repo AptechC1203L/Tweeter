@@ -13,16 +13,21 @@ import java.util.Date;
  * @author chin
  */
 public class Comment {
+    private int id;
     private String text;
     private String userId;
     private int postId;
     private Date timestamp;
 
-    public Comment(String text, String userId, int postId, Date timestamp) {
-        this.text = text;
-        this.userId = userId;
-        this.postId = postId;
-        this.timestamp = timestamp;
+    public Comment() {
+    }
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getText() {
