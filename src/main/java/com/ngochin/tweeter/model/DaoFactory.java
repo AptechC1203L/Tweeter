@@ -26,6 +26,6 @@ public class DaoFactory {
     }
     
     public UserDao getUserDao() {
-        return new UserDao(connectionString);
+        return new UserDao(connectionString, this);
     }
 }

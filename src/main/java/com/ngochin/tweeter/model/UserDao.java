@@ -20,9 +20,11 @@ import java.util.logging.Logger;
  */
 public class UserDao {
     private final String connectionString;
+    private final DaoFactory factory;
 
-    public UserDao(String connectionString) {
+    public UserDao(String connectionString, DaoFactory factory) {
         this.connectionString = connectionString;
+        this.factory = factory;
     }
     
     /**
@@ -116,6 +118,7 @@ public class UserDao {
         u.setUserId(userName);
         u.setFullName(fullName);
         u.setPassword(password);
+        u.setPostDao(factory.getPostDao());
         
         return u;
     }

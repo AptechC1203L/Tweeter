@@ -18,6 +18,7 @@ public class User {
     private String fullName;
     private String password;
     private List<String> roles;
+    private PostDao postDao;
     
     public User() {
         this.roles = new ArrayList<>();
@@ -63,5 +64,13 @@ public class User {
     
     public List<String> getRoles() {
         return this.roles;
+    }
+
+    public void setPostDao(PostDao postDao) {
+        this.postDao = postDao;
+    }
+    
+    public List<Post> getPosts() {
+        return postDao.getPostsFromUser(userId);
     }
 }
