@@ -10,6 +10,7 @@
             30
         </session-timeout>
     </session-config>
+
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>home</web-resource-name>
@@ -19,6 +20,7 @@
             <role-name>user</role-name>
         </auth-constraint>
     </security-constraint>
+
     <login-config>
         <auth-method>FORM</auth-method>
         <form-login-config>
