@@ -39,7 +39,7 @@ public class HomeServlet extends HttpServlet {
 
         request.setAttribute("posts", daoFactory.getPostDao().getAllPosts());
 
-        RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/home.jsp");
         rd.forward(request, response);
     }
 
