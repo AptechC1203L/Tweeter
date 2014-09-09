@@ -8,12 +8,7 @@ package com.ngochin.tweeter.controller;
 
 import com.ngochin.tweeter.model.DaoFactory;
 import com.ngochin.tweeter.model.Post;
-import com.ngochin.tweeter.model.PostDao;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,22 +33,18 @@ public class PostsServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            response.setContentType("text/html;charset=UTF-8");
-            String postContent = request.getParameter("postContent");
-            
-            Post p = new Post();
-            p.setText(postContent);
-            p.setUsername(request.getRemoteUser());
+        response.setContentType("text/html;charset=UTF-8");
+        String postContent = request.getParameter("postContent");
 
-            String dbUrl = getServletContext().getInitParameter("dbUrl");
-            DaoFactory daoFactory = new DaoFactory(dbUrl);
-            daoFactory.getPostDao().addPost(p);
-            
-            response.sendRedirect("Home");
-        } catch (SQLException ex) {
-            Logger.getLogger(PostsServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Post p = new Post();
+        p.setText(postContent);
+        p.setUsername(request.getRemoteUser());
+
+        String dbUrl = getServletContext().getInitParameter("dbUrl");
+        DaoFactory daoFactory = new DaoFactory(dbUrl);
+        daoFactory.getPostDao().addPost(p);
+
+        response.sendRedirect("Home");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

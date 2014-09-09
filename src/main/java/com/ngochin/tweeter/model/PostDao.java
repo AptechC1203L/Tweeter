@@ -13,6 +13,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,16 +28,19 @@ public class PostDao {
         this.connectionString = connectionString;
     }
 
-    public PostDao addPost(Post p) throws SQLException {
+    public boolean addPost(Post p) {
         try (Connection conn = DriverManager.getConnection(connectionString)) {
             Statement st = conn.createStatement();
-            st.executeUpdate(
-                String.format("insert into posts (user_name, creation_time, content) "
-                        + "values (\"%s\", datetime(\"now\"), \"%s\")",
-                        p.getUsername(), p.getText()));
+            int count = st.executeUpdate(
+                    String.format("insert into posts (user_name, creation_time, content) "
+                            + "values (\"%s\", datetime(\"now\"), \"%s\")",
+                            p.getUsername(), p.getText()));
+            
+            return count == 1;
+        } catch (SQLException ex) {
+            Logger.getLogger(PostDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-
-        return this;
     }
     
     private Post postFromRs(ResultSet rs) throws SQLException {
@@ -54,7 +59,7 @@ public class PostDao {
         return p;
     }
 
-    public Post getPost(int postId) throws SQLException {
+    public Post getPost(int postId) {
         try (Connection conn = DriverManager.getConnection(connectionString)) {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery("select * from posts where id=" + Integer.toString(postId));
@@ -62,12 +67,14 @@ public class PostDao {
             while (rs.next()) {
                 return postFromRs(rs);
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(PostDao.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return null;
     }
 
-    public List<Post> getPostsFromUser(String username) throws SQLException {
+    public List<Post> getPostsFromUser(String username) {
         ArrayList<Post> posts = new ArrayList<>();
 
         try (Connection conn = DriverManager.getConnection(connectionString)) {
@@ -78,12 +85,14 @@ public class PostDao {
             while (rs.next()) {
                 posts.add(postFromRs(rs));
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(PostDao.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return posts;
     }
 
-    public List<Post> getAllPosts() throws SQLException {
+    public List<Post> getAllPosts() {
         ArrayList<Post> posts = new ArrayList<>();
 
         try (Connection conn = DriverManager.getConnection(connectionString)) {
@@ -93,6 +102,8 @@ public class PostDao {
             while (rs.next()) {
                 posts.add(postFromRs(rs));
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(PostDao.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return posts;
