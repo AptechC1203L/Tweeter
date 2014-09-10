@@ -44,8 +44,7 @@ public class CommentsServlet extends HttpServlet {
         c.setUserId(request.getRemoteUser());
         c.setPostId(postId);
 
-        String dbUrl = getServletContext().getInitParameter("dbUrl");
-        DaoFactory daoFactory = new DaoFactory(dbUrl);
+        DaoFactory daoFactory = new DaoFactory();
         daoFactory.getCommentDao().addComment(c);
         
         response.sendRedirect(request.getHeader("referer"));

@@ -40,8 +40,7 @@ public class UserServlet extends HttpServlet {
 
         String userName = request.getPathInfo().substring(1);
 
-        String dbUrl = getServletContext().getInitParameter("dbUrl");
-        DaoFactory daoFactory = new DaoFactory(dbUrl);
+        DaoFactory daoFactory = new DaoFactory();
 
         User u = daoFactory.getUserDao().getUser(userName);
         List<Post> posts = daoFactory.getPostDao().getPostsFromUser(userName);

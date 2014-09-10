@@ -37,8 +37,7 @@ public class HomeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String dbUrl = getServletContext().getInitParameter("dbUrl");
-        DaoFactory daoFactory = new DaoFactory(dbUrl);
+        DaoFactory daoFactory = new DaoFactory();
 
         List<Post> allPosts = daoFactory.getPostDao().getAllPosts();
 

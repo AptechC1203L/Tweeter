@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context antiJARLocking="true" path="/Tweeter">
+
+    <Resource name="jdbc/TweeterDB"
+            type="javax.sql.DataSource"
+            driverClassName="org.sqlite.JDBC"
+            url="jdbc:sqlite:/home/chin/tweeter.db">
+    </Resource>
+    
+<!--    <Realm className="org.apache.catalina.realm.DataSourceRealm"
+        dataSourceName="jdbc/TweeterDB"
+        userTable="users"
+        userNameCol="user_name"
+        userCredCol="password"
+        userRoleTable="user_roles"
+        roleNameCol="role_name">
+    </Realm>-->
+
     <Realm className="org.apache.catalina.realm.JDBCRealm"
            connectionName="" connectionPassword=""
            connectionURL="jdbc:sqlite:/home/chin/tweeter.db"

@@ -40,8 +40,7 @@ public class PostsServlet extends HttpServlet {
         p.setText(postContent);
         p.setUsername(request.getRemoteUser());
 
-        String dbUrl = getServletContext().getInitParameter("dbUrl");
-        DaoFactory daoFactory = new DaoFactory(dbUrl);
+        DaoFactory daoFactory = new DaoFactory();
         daoFactory.getPostDao().addPost(p);
 
         response.sendRedirect(request.getHeader("referer"));

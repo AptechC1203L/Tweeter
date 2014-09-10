@@ -14,16 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sql.DataSource;
 /**
  *
  * @author chin
  */
 public class UserDao {
-    private final String connectionString;
+    private final DataSource ds;
     private final DaoFactory factory;
 
-    public UserDao(String connectionString, DaoFactory factory) {
-        this.connectionString = connectionString;
+    public UserDao(DataSource ds, DaoFactory factory) {
+        this.ds = ds;
         this.factory = factory;
     }
     
@@ -33,7 +34,7 @@ public class UserDao {
      * @return Whether the user was added.
      */
     public boolean addUser(User u) {
-        try (Connection conn = DriverManager.getConnection(connectionString)) {
+        try (Connection conn = ds.getConnection()) {
             Statement st = conn.createStatement();
 
             // FIXME: Need safe state if arguments are invalid.
@@ -57,7 +58,7 @@ public class UserDao {
     }
 
     public User getUser(String username) {
-        try (Connection conn = DriverManager.getConnection(connectionString)) {
+        try (Connection conn = ds.getConnection()) {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery("select * from users where user_name=\"" + username + "\"");
 
@@ -84,7 +85,7 @@ public class UserDao {
     public List<User> getAllUsers() {
         ArrayList<User> users = new ArrayList<>();
 
-        try (Connection conn = DriverManager.getConnection(connectionString)) {
+        try (Connection conn = ds.getConnection()) {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery("select * from users");
 

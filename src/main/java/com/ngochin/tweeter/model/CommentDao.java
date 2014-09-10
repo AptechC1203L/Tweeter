@@ -7,7 +7,6 @@
 package com.ngochin.tweeter.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,22 +15,23 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sql.DataSource;
 
 /**
  *
  * @author chin
  */
 public class CommentDao {
-    private final String connectionString;
-    private DaoFactory factory;
+    private final DataSource ds;
+    private final DaoFactory factory;
 
-    public CommentDao(String connectionString, DaoFactory factory) {
-        this.connectionString = connectionString;
+    public CommentDao(DataSource ds, DaoFactory factory) {
+        this.ds = ds;
         this.factory = factory;
     }
 
     public boolean addComment(Comment c) {
-        try (Connection conn = DriverManager.getConnection(connectionString)) {
+        try (Connection conn = ds.getConnection()) {
             Statement st = conn.createStatement();
             int count = st.executeUpdate(
                     String.format("insert into comments (user_name, post_id, creation_time, text) "
@@ -47,7 +47,7 @@ public class CommentDao {
     public List<Comment> getCommentsOnPost(int postId) {
         ArrayList<Comment> commentsOnPost = new ArrayList<>();
         
-        try (Connection conn = DriverManager.getConnection(connectionString)) {
+        try (Connection conn = ds.getConnection()) {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery("select * from comments where post_id=" + Integer.toString(postId));
 
