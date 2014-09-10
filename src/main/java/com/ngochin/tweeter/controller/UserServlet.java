@@ -39,14 +39,29 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String userName = request.getPathInfo().substring(1);
+        String pathInfo = request.getPathInfo();
+
+        String userName;
+        if (pathInfo != null) {
+            userName = pathInfo.substring(1);
+        } else {
+            userName = "";
+        }
 
         DaoFactory daoFactory = new DaoFactory();
 
-        User u = daoFactory.getUserDao().getUser(userName);
-        List<Post> posts = daoFactory.getPostDao().getPostsFromUser(userName);
         User authenticatedUser = daoFactory.getUserDao().getUser(request.getRemoteUser());
-        
+
+        User u;
+        if (userName.isEmpty()) {
+            System.out.println("here");
+            u = authenticatedUser;
+        } else {
+            System.out.println("there");
+            u = daoFactory.getUserDao().getUser(userName);
+        }
+
+        List<Post> posts = daoFactory.getPostDao().getPostsFromUser(u.getUserId());
         List<Post> reversedPosts = new ArrayList<>();
         for (Post p : posts) {
             reversedPosts.add(0, p);
