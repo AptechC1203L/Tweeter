@@ -20,13 +20,15 @@ import javax.sql.DataSource;
  */
 public class DaoFactory {
     // FIXME The @Resource annotation doesn't work here.
-    private DataSource ds;
+    @Resource(name = "jdbc/TweeterDB")
+    private static DataSource ds;
 
     public DaoFactory() {
         try {
-            Context initCtx = new InitialContext();
-            Context envCtx = (Context) initCtx.lookup("java:comp/env");
-            ds = (DataSource) envCtx.lookup("jdbc/TweeterDB");
+            if (ds == null) {
+                Context envCtx = (Context) InitialContext.doLookup("java:comp/env");
+                ds = (DataSource) envCtx.lookup("jdbc/TweeterDB");
+            }
         } catch (NamingException ex) {
             Logger.getLogger(DaoFactory.class.getName()).log(Level.SEVERE, null, ex);
         }
