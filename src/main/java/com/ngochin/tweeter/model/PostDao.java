@@ -61,7 +61,6 @@ public class PostDao {
         p.setId(id);
         p.setText(content);
         try {
-            // FIXME: timestamp seems wrong
             p.setTimestamp(fmt.parse(creationTime));
         } catch (ParseException ex) {
             Logger.getLogger(PostDao.class.getName()).log(Level.SEVERE, null, ex);
