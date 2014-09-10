@@ -42,13 +42,13 @@ public class AdminServlet extends HttpServlet {
         UserDao userDao = daoFactory.getUserDao();
 
         if (request.getMethod().equals("POST")) {
-            String userName = request.getParameter("username");
+            String username = request.getParameter("username");
             String fullName = request.getParameter("fullname");
             String password = request.getParameter("password");
             String confirmedPassword = request.getParameter("confirmed_password");
             String[] roles = request.getParameterValues("roles");
 
-            if (userName == null || userName.isEmpty()) {
+            if (username == null || username.isEmpty()) {
                 request.setAttribute("error", "Username cannot be empty!");
             } else if (password == null || password.isEmpty()) {
                 request.setAttribute("error", "Password cannot be empty!");
@@ -56,7 +56,7 @@ public class AdminServlet extends HttpServlet {
                 request.setAttribute("error", "Passwords do not match.");
             } else {
                 User u = new User();
-                u.setUserId(userName);
+                u.setUserId(username);
                 u.setFullName(fullName);
 
                 for (String role: roles) {
