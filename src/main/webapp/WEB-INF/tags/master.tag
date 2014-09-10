@@ -41,16 +41,15 @@
         
         <c:if test="${not empty user}">
             <a href="${pageContext.servletContext.contextPath}/user/${user.getUserId()}">${user.getFullName()}</a>
-        </c:if>
         
-        <c:if test="${pageContext.request.isUserInRole('admin') == true}">
-            <a href="${pageContext.servletContext.contextPath}/admin">Admin</a>
+            <c:if test="${pageContext.request.isUserInRole('admin') == true}">
+                <a href="${pageContext.servletContext.contextPath}/admin">Admin</a>
+            </c:if>
+
+            <form action="${pageContext.servletContext.contextPath}/logout">
+                <input type="submit" value="Logout" />
+            </form>
         </c:if>
-
-        <form action="${pageContext.servletContext.contextPath}/logout">
-            <input type="submit" value="Logout" />
-        </form>
-
         <jsp:doBody></jsp:doBody>
     </body>
 </html>
