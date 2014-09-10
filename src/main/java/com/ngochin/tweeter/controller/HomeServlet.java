@@ -43,8 +43,12 @@ public class HomeServlet extends HttpServlet {
         List<Post> allPosts = daoFactory.getPostDao().getAllPosts();
         User u = daoFactory.getUserDao().getUser(request.getRemoteUser());
 
-        // FIXME: Latest should appear first.
-        request.setAttribute("posts", allPosts);
+        List<Post> reversedPosts = new ArrayList<>();
+        for (Post p : allPosts) {
+            reversedPosts.add(0, p);
+        }
+
+        request.setAttribute("posts", reversedPosts);
         request.setAttribute("user", u);
 
         RequestDispatcher rd = request.getRequestDispatcher("/home.jsp");

@@ -10,6 +10,7 @@ import com.ngochin.tweeter.model.DaoFactory;
 import com.ngochin.tweeter.model.Post;
 import com.ngochin.tweeter.model.User;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -45,10 +46,15 @@ public class UserServlet extends HttpServlet {
         User u = daoFactory.getUserDao().getUser(userName);
         List<Post> posts = daoFactory.getPostDao().getPostsFromUser(userName);
         User authenticatedUser = daoFactory.getUserDao().getUser(request.getRemoteUser());
+        
+        List<Post> reversedPosts = new ArrayList<>();
+        for (Post p : posts) {
+            reversedPosts.add(0, p);
+        }
 
         request.setAttribute("authenticatedUser", authenticatedUser);
         request.setAttribute("user", u);
-        request.setAttribute("posts", posts);
+        request.setAttribute("posts", reversedPosts);
 
         RequestDispatcher rd = request.getRequestDispatcher("/user.jsp");
         rd.forward(request, response);

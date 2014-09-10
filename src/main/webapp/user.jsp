@@ -13,7 +13,7 @@
         <h:postBox/>
     </c:if>
 
-    <c:forEach var="post" items="${requestScope.user.getPosts()}">
+    <c:forEach var="post" items="${posts}">
         <h:post post="${post}"/>
     </c:forEach>
 </h:master>
