@@ -9,6 +9,7 @@
 
 <%-- The list of normal or fragment attributes can be specified here: --%>
 <%@attribute name="title"%>
+<%@attribute name="user" type="com.ngochin.tweeter.model.User" %>
 
 <%-- any content can be specified here e.g.: --%>
 <html>
@@ -37,6 +38,11 @@
     </head>
     <body>
         <a href="${pageContext.servletContext.contextPath}">Home</a>
+        
+        <c:if test="${not empty user}">
+            <a href="${pageContext.servletContext.contextPath}/user/${user.getUserId()}">${user.getFullName()}</a>
+        </c:if>
+        
         <c:if test="${pageContext.request.isUserInRole('admin') == true}">
             <a href="${pageContext.servletContext.contextPath}/admin">Admin</a>
         </c:if>

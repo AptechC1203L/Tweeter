@@ -8,6 +8,7 @@ package com.ngochin.tweeter.controller;
 
 import com.ngochin.tweeter.model.DaoFactory;
 import com.ngochin.tweeter.model.Post;
+import com.ngochin.tweeter.model.User;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,14 +41,16 @@ public class HomeServlet extends HttpServlet {
         DaoFactory daoFactory = new DaoFactory();
 
         List<Post> allPosts = daoFactory.getPostDao().getAllPosts();
+        User u = daoFactory.getUserDao().getUser(request.getRemoteUser());
 
         // FIXME: Latest should appear first.
         request.setAttribute("posts", allPosts);
+        request.setAttribute("user", u);
 
         RequestDispatcher rd = request.getRequestDispatcher("/home.jsp");
         rd.forward(request, response);
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
