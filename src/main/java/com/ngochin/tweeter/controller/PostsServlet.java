@@ -36,12 +36,14 @@ public class PostsServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String postContent = request.getParameter("postContent");
 
-        Post p = new Post();
-        p.setText(postContent);
-        p.setUsername(request.getRemoteUser());
+        if (!(postContent == null || postContent.isEmpty())) {
+            Post p = new Post();
+            p.setText(postContent);
+            p.setUsername(request.getRemoteUser());
 
-        DaoFactory daoFactory = new DaoFactory();
-        daoFactory.getPostDao().addPost(p);
+            DaoFactory daoFactory = new DaoFactory();
+            daoFactory.getPostDao().addPost(p);
+        }
 
         response.sendRedirect(request.getHeader("referer"));
     }

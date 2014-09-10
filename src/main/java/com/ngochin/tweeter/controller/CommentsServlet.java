@@ -39,13 +39,14 @@ public class CommentsServlet extends HttpServlet {
         
         Comment c = new Comment();
 
-        // FIXME: Empty comment?
-        c.setText(commentText);
-        c.setUserId(request.getRemoteUser());
-        c.setPostId(postId);
+        if (!(commentText == null || commentText.isEmpty())) {
+            c.setText(commentText);
+            c.setUserId(request.getRemoteUser());
+            c.setPostId(postId);
 
-        DaoFactory daoFactory = new DaoFactory();
-        daoFactory.getCommentDao().addComment(c);
+            DaoFactory daoFactory = new DaoFactory();
+            daoFactory.getCommentDao().addComment(c);
+        }
         
         response.sendRedirect(request.getHeader("referer"));
     }
