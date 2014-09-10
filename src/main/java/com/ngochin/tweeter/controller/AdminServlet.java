@@ -48,7 +48,13 @@ public class AdminServlet extends HttpServlet {
             String confirmedPassword = request.getParameter("confirmed_password");
             String[] roles = request.getParameterValues("roles");
 
-            if (password.equals(confirmedPassword)) {
+            if (userName == null || userName.isEmpty()) {
+                request.setAttribute("error", "Username cannot be empty!");
+            } else if (password == null || password.isEmpty()) {
+                request.setAttribute("error", "Password cannot be empty!");
+            } else if (!password.equals(confirmedPassword)) {
+                request.setAttribute("error", "Passwords do not match.");
+            } else {
                 User u = new User();
                 u.setUserId(userName);
                 u.setFullName(fullName);
@@ -61,8 +67,6 @@ public class AdminServlet extends HttpServlet {
                 u.setPassword(password);
 
                 userDao.addUser(u);
-            } else {
-                request.setAttribute("error", "Passwords do not match.");
             }
         }
 
