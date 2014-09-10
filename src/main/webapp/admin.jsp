@@ -3,7 +3,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <h:master title="Tweeter Users">
-    Create new user:
+    Create new user:<br/>
+    
+    <c:if test="${not empty error}">
+        ${error}
+    </c:if>
 
     <form action="#" method="POST">
         <label for="username">Username:</label>

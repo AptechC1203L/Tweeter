@@ -62,7 +62,7 @@ public class AdminServlet extends HttpServlet {
 
                 userDao.addUser(u);
             } else {
-                // FIXME: Show an error message here.
+                request.setAttribute("error", "Passwords do not match.");
             }
         }
 
