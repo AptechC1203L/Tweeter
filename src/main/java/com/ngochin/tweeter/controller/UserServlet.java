@@ -44,7 +44,9 @@ public class UserServlet extends HttpServlet {
 
         User u = daoFactory.getUserDao().getUser(userName);
         List<Post> posts = daoFactory.getPostDao().getPostsFromUser(userName);
+        User authenticatedUser = daoFactory.getUserDao().getUser(request.getRemoteUser());
 
+        request.setAttribute("authenticatedUser", authenticatedUser);
         request.setAttribute("user", u);
         request.setAttribute("posts", posts);
 

@@ -8,9 +8,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
-<h:master title="${requestScope.user.getFullName()}'s Homepage">
-    ${requestScope.user.getFullName()}'s Homepage <br/>
-    
+<h:master title="${requestScope.user.getFullName()}'s Homepage" user="${requestScope.authenticatedUser}">
+    <c:if test="${user.getUserId() == authenticatedUser.getUserId()}">
+        <h:postBox/>
+    </c:if>
+
     <c:forEach var="post" items="${requestScope.user.getPosts()}">
         <h:post post="${post}"/>
     </c:forEach>
