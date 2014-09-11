@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.ngochin.tweeter.model;
 
 import java.util.ArrayList;
@@ -15,9 +14,10 @@ import java.util.List;
  * @author chin
  */
 public class Post {
+
     private String text = "";
     private String username = "";
-    private Date timestamp = null;
+    private Date timestamp = new Date();
     private int id = 0;
     private CommentDao commentDao;
     private UserDao userDao;
@@ -68,7 +68,7 @@ public class Post {
     public List<Comment> getComments() {
         return commentDao.getCommentsOnPost(id);
     }
-    
+
     public User getPoster() {
         return userDao.getUser(username);
     }
