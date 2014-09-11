@@ -37,9 +37,9 @@ public class HomeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DaoFactory daoFactory = new DaoFactory();
+        DaoFactory f = (DaoFactory) getServletContext().getAttribute("daoFactory");
 
-        List<Post> allPosts = daoFactory.getPostDao().getAllPosts();
+        List<Post> allPosts = f.getPostDao().getAllPosts();
         List<Post> reversedPosts = new ArrayList<>();
         for (Post p : allPosts) {
             reversedPosts.add(0, p);
