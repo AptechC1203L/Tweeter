@@ -9,7 +9,6 @@
 
 <%-- The list of normal or fragment attributes can be specified here: --%>
 <%@attribute name="title"%>
-<%@attribute name="user" type="com.ngochin.tweeter.model.User" %>
 
 <%-- any content can be specified here e.g.: --%>
 <html>
@@ -37,19 +36,17 @@
         </style>
     </head>
     <body>
+        <c:set var="user" value="${sessionScope.authUser}"/>
         <a href="${pageContext.servletContext.contextPath}">Home</a>
+        <a href="${pageContext.servletContext.contextPath}/user/${user.getUserId()}">${user.getFullName()}</a>
 
-        <c:if test="${not empty user}">
-            <a href="${pageContext.servletContext.contextPath}/user/${user.getUserId()}">${user.getFullName()}</a>
-        
-            <c:if test="${pageContext.request.isUserInRole('admin')}">
-                <a href="${pageContext.servletContext.contextPath}/admin">Admin</a>
-            </c:if>
-
-            <form action="${pageContext.servletContext.contextPath}/logout">
-                <input type="submit" value="Logout" />
-            </form>
+        <c:if test="${pageContext.request.isUserInRole('admin')}">
+            <a href="${pageContext.servletContext.contextPath}/admin">Admin</a>
         </c:if>
+
+        <form action="${pageContext.servletContext.contextPath}/logout">
+            <input type="submit" value="Logout" />
+        </form>
         <jsp:doBody></jsp:doBody>
     </body>
 </html>

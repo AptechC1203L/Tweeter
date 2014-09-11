@@ -49,8 +49,7 @@ public class UserServlet extends HttpServlet {
         }
 
         DaoFactory daoFactory = new DaoFactory();
-
-        User authenticatedUser = daoFactory.getUserDao().getUser(request.getRemoteUser());
+        User authenticatedUser = (User) request.getAttribute("authUser");
 
         User u;
         if (userName.isEmpty()) {
@@ -65,7 +64,6 @@ public class UserServlet extends HttpServlet {
             reversedPosts.add(0, p);
         }
 
-        request.setAttribute("authenticatedUser", authenticatedUser);
         request.setAttribute("user", u);
         request.setAttribute("posts", reversedPosts);
 

@@ -8,7 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
-<h:master title="${user.getFullName()}'s Homepage" user="${authUser}">
+<h:master title="${user.getFullName()}'s Homepage">
     <c:if test="${user.getUserId() == authUser.getUserId()}">
         <h:postBox/>
     </c:if>

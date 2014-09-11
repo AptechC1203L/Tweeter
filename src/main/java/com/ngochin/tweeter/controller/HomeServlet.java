@@ -41,15 +41,12 @@ public class HomeServlet extends HttpServlet {
         DaoFactory daoFactory = new DaoFactory();
 
         List<Post> allPosts = daoFactory.getPostDao().getAllPosts();
-        User u = daoFactory.getUserDao().getUser(request.getRemoteUser());
-
         List<Post> reversedPosts = new ArrayList<>();
         for (Post p : allPosts) {
             reversedPosts.add(0, p);
         }
 
         request.setAttribute("posts", reversedPosts);
-        request.setAttribute("user", u);
 
         RequestDispatcher rd = request.getRequestDispatcher("/home.jsp");
         rd.forward(request, response);
