@@ -53,7 +53,7 @@ public class AdminServlet extends HttpServlet {
             } else if (password == null || password.isEmpty()) {
                 request.setAttribute("error", "Password cannot be empty!");
             } else if (!password.equals(confirmedPassword)) {
-                request.setAttribute("error", "Passwords do not match.");
+                request.setAttribute("error", "Passwords do not match!");
             } else {
                 User u = new User();
                 u.setUserId(username);
