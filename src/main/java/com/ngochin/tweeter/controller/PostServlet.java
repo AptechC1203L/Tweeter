@@ -10,6 +10,7 @@ import com.ngochin.tweeter.model.DaoFactory;
 import com.ngochin.tweeter.model.Post;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,13 +36,16 @@ public class PostServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String postId = request.getPathInfo();
-        System.out.println(postId);
         
         // The empty pathInfo is '/'
         if (postId.length() > 1) {
             try {
                 int id = Integer.parseInt(postId.substring(1));
-                Post post = new DaoFactory().getPostDao().getPost(id);
+                
+                // This factory could have been extracted out but it messes
+                // with testing.
+                DaoFactory f = (DaoFactory) getServletContext().getAttribute("daoFactory");
+                Post post = f.getPostDao().getPost(id);
                 if (post != null) {
                     request.setAttribute("post", post);
 
@@ -72,8 +76,8 @@ public class PostServlet extends HttpServlet {
             p.setText(postContent);
             p.setUsername(request.getRemoteUser());
 
-            DaoFactory daoFactory = new DaoFactory();
-            daoFactory.getPostDao().addPost(p);
+            DaoFactory f = (DaoFactory) getServletContext().getAttribute("daoFactory");
+            f.getPostDao().addPost(p);
         }
 
         response.sendRedirect(request.getHeader("referer"));
