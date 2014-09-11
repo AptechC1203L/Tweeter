@@ -8,8 +8,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
-<h:master title="${requestScope.user.getFullName()}'s Homepage" user="${requestScope.authenticatedUser}">
-    <c:if test="${user.getUserId() == authenticatedUser.getUserId()}">
+<h:master title="${user.getFullName()}'s Homepage" user="${authUser}">
+    <c:if test="${user.getUserId() == authUser.getUserId()}">
         <h:postBox/>
     </c:if>
 

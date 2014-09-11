@@ -31,7 +31,7 @@
         <input type="submit" value="Create" />
     </form>
 
-    <c:forEach var="user" items="${requestScope.users}">
+    <c:forEach var="user" items="${users}">
         ${user.getUserId()}<br/>
     </c:forEach>
 </h:master>
