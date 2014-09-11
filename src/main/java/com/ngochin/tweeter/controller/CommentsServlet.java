@@ -33,7 +33,6 @@ public class CommentsServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         String commentText = request.getParameter("text");
         int postId = Integer.parseInt(request.getParameter("postId"));
         

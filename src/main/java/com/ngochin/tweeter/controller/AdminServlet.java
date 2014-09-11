@@ -35,8 +35,6 @@ public class AdminServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
         DaoFactory daoFactory = new DaoFactory();
         
         UserDao userDao = daoFactory.getUserDao();
