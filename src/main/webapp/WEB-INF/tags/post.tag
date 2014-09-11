@@ -15,7 +15,21 @@
         <a href="${pageContext.servletContext.contextPath}/user/${post.getUsername()}">${post.getPoster().getFullName()}</a>
     </div>
         <div class="post-time-stamp">${applicationScope.prettyTime.format(post.getTimestamp())}</div>
-    <div class="post-content">${post.getText()}</div>
+        <div class="post-content">
+            <c:forEach var="fragment" items="${post.getContentFragments()}">
+                <c:choose>
+                    <c:when test="${fragment.getClass().getSimpleName() == 'String'}">
+                        ${fragment}
+                    </c:when>
+                    <c:when test="${fragment.getClass().getSimpleName() == 'User'}">
+                        <a href="${pageContext.servletContext.contextPath}/user/${fragment.getUserId()}">@${fragment.getFullName()}</a>
+                    </c:when>
+                    <c:otherwise>
+                    </c:otherwise>
+                </c:choose>
+
+            </c:forEach>
+        </div>
 
     <c:forEach var="comment" items="${post.getComments()}">
         Comment from ${comment.getUser().getFullName()}: ${comment.getText()}<br/>
