@@ -38,11 +38,11 @@
     </head>
     <body>
         <a href="${pageContext.servletContext.contextPath}">Home</a>
-        
+
         <c:if test="${not empty user}">
             <a href="${pageContext.servletContext.contextPath}/user/${user.getUserId()}">${user.getFullName()}</a>
         
-            <c:if test="${pageContext.request.isUserInRole('admin') == true}">
+            <c:if test="${pageContext.request.isUserInRole('admin')}">
                 <a href="${pageContext.servletContext.contextPath}/admin">Admin</a>
             </c:if>
 
