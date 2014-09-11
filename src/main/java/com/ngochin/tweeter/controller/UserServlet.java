@@ -54,10 +54,8 @@ public class UserServlet extends HttpServlet {
 
         User u;
         if (userName.isEmpty()) {
-            System.out.println("here");
             u = authenticatedUser;
         } else {
-            System.out.println("there");
             u = daoFactory.getUserDao().getUser(userName);
         }
 
