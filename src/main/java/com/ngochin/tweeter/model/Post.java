@@ -103,19 +103,20 @@ public class Post {
 
         return tags;
     }
-    
+
     /**
      * getContentFragments break the content text into adjacent fragments of
      * different types (string, user, hashtag, etc.). It is used to help with
      * rendering post content that contains tags.
-     * @return 
+     *
+     * @return
      */
     public List<Object> getContentFragments() {
         List<Tag> tags = getTags();
         ArrayList<Object> fragments = new ArrayList<>();
         int i = 0;
         int k = 0;
-        
+
         while (i < text.length() && k < tags.size()) {
             Tag t = tags.get(k);
             String textFragment = text.substring(i, t.getStart());
@@ -131,7 +132,7 @@ public class Post {
             i = t.getEnd();
             k++;
         }
-        
+
         fragments.add(text.substring(i));
 
         return fragments;
@@ -166,7 +167,7 @@ public class Post {
         public void setLen(int len) {
             this.len = len;
         }
-        
+
         public int getEnd() {
             return getStart() + getLen();
         }
