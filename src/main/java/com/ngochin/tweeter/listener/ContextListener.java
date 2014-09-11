@@ -6,6 +6,8 @@
 
 package com.ngochin.tweeter.listener;
 
+import com.ngochin.tweeter.model.DaoFactory;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -22,7 +24,9 @@ public class ContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         PrettyTime pt = new PrettyTime();
-        sce.getServletContext().setAttribute("prettyTime", pt);
+        ServletContext ctx = sce.getServletContext();
+        ctx.setAttribute("prettyTime", pt);
+        ctx.setAttribute("daoFactory", new DaoFactory());
     }
 
     @Override
