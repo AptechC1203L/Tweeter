@@ -34,7 +34,12 @@ public class PostDao {
         this.factory = factory;
     }
 
-    public boolean addPost(Post p) {
+    /**
+     * Add a post.
+     * @param p
+     * @return the added post with ID filled in.
+     */
+    public Post addPost(Post p) {
         try (Connection conn = ds.getConnection()) {
             Statement st = conn.createStatement();
             int count = st.executeUpdate(
@@ -42,11 +47,15 @@ public class PostDao {
                             + "values (\"%s\", datetime(\"now\"), \"%s\")",
                             p.getUsername(), p.getText()));
             
-            return count == 1;
+            if (count == 1) {
+                ResultSet rs = st.executeQuery("select * from posts where rowid=last_insert_rowid()");
+                rs.next();
+                return postFromRs(rs);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(PostDao.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
         }
+        return null;
     }
     
     private Post postFromRs(ResultSet rs) throws SQLException {
