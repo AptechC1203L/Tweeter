@@ -44,7 +44,7 @@ public class PostDao {
             Statement st = conn.createStatement();
             int count = st.executeUpdate(
                     String.format("insert into posts (user_name, creation_time, content) "
-                            + "values (\"%s\", datetime(\"now\"), \"%s\")",
+                            + "values (\"%s\", datetime('now', 'localtime'), \"%s\")",
                             p.getUsername(), p.getText()));
             
             if (count == 1) {

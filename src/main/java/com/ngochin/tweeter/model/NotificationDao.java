@@ -39,7 +39,7 @@ public class NotificationDao {
             Statement st = conn.createStatement();
             int count = st.executeUpdate(
                     String.format("insert into notifications (user_name, message, creation_time, link, isRead) "
-                            + "values (\"%s\", \"%s\", datetime(\"now\"), \"%s\", 0)",
+                            + "values (\"%s\", \"%s\", datetime('now', 'localtime'), \"%s\", 0)",
                             n.getUsername(), n.getMessage(), n.getLink()));
             
             return count == 1;

@@ -35,7 +35,7 @@ public class CommentDao {
             Statement st = conn.createStatement();
             int count = st.executeUpdate(
                     String.format("insert into comments (user_name, post_id, creation_time, text) "
-                            + "values (\"%s\", \"%d\", datetime(\"now\"), \"%s\")",
+                            + "values (\"%s\", \"%d\", datetime('now', 'localtime'), \"%s\")",
                             c.getUserId(), c.getPostId(), c.getText()));
             return count == 1;
         } catch (SQLException ex) {
