@@ -71,4 +71,24 @@ public class PostTest {
         assertEquals(u, fragments.get(1));
         assertEquals("", fragments.get(2));
     }
+    
+    @Test
+    public void testGetTaggedUsers() {
+        User mike = new User();
+        User trung = new User();
+        UserDao mockedDao = mock(UserDao.class);
+        
+        when(mockedDao.getUser("mike")).thenReturn(mike);
+        when(mockedDao.getUser("trung")).thenReturn(trung);
+        
+        Post p = new Post();
+        p.setUserDao(mockedDao);
+        p.setText("Hey @trung @mike and @other");
+        
+        List<User> taggedUsers = p.getTaggedUsers();
+        
+        assertEquals(2, taggedUsers.size());
+        assertEquals(trung, taggedUsers.get(0));
+        assertEquals(mike, taggedUsers.get(1));
+    }
 }

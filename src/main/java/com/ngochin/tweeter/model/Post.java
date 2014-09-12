@@ -72,6 +72,8 @@ public class Post {
     public User getPoster() {
         return userDao.getUser(username);
     }
+    
+    // FIXME The tag subsystem is a mess.
 
     List<Tag> getTags() {
         ArrayList<Tag> tags = new ArrayList<>();
@@ -103,6 +105,20 @@ public class Post {
         }
 
         return tags;
+    }
+    
+    public List<User> getTaggedUsers() {
+        List<Tag> tags = getTags();
+        ArrayList<User> users = new ArrayList<>();
+        
+        for (Tag t : tags) {
+            User u = userDao.getUser(t.getText().substring(1));
+            if (u != null) {
+                users.add(u);
+            }
+        }
+        
+        return users;
     }
 
     /**
