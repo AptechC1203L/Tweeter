@@ -6,8 +6,7 @@
 
 <%@tag description="A box that user uses to create a new post" pageEncoding="UTF-8"%>
 
-<form action="${pageContext.servletContext.contextPath}/post" method="POST" enctype="multipart/form-data">
+<form action="${pageContext.servletContext.contextPath}/post/" method="POST">
     <input type="text" name="postContent" value="" />
-    <input type="file" name="image" value="" />
     <input type="submit" value="Post" />
 </form>
