@@ -8,6 +8,9 @@ package com.ngochin.tweeter.controller;
 
 import com.ngochin.tweeter.model.Comment;
 import com.ngochin.tweeter.model.DaoFactory;
+import com.ngochin.tweeter.model.Notification;
+import com.ngochin.tweeter.model.Post;
+import com.ngochin.tweeter.model.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,11 +42,26 @@ public class CommentsServlet extends HttpServlet {
         Comment c = new Comment();
 
         if (!(commentText == null || commentText.isEmpty())) {
+            DaoFactory daoFactory = new DaoFactory();
+            Post p = daoFactory.getPostDao().getPost(postId);
+            User commentUser = (User) request.getSession().getAttribute("authUser");
+
             c.setText(commentText);
             c.setUserId(request.getRemoteUser());
             c.setPostId(postId);
 
-            DaoFactory daoFactory = new DaoFactory();
+            // If the comment is from a different user than the currently
+            // logged in user
+            if (!c.getUserId().equals(p.getUsername())) {
+                // Then create a notification
+                Notification n = new Notification();
+                n.setMessage(commentUser.getFullName() + " commented on your post.");
+                n.setLink("/post/" + Integer.toString(postId));
+                n.setUsername(p.getUsername());
+
+                daoFactory.getNotificationDao().addNotification(n);
+            }
+
             daoFactory.getCommentDao().addComment(c);
         }
         
