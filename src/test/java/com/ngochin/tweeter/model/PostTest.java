@@ -44,6 +44,15 @@ public class PostTest {
         assertEquals("@a", t.getText());
         assertEquals(0, t.getStart());
         assertEquals(2, t.getLen());
+        
+        p.setText("@a!");
+        tags = p.getTags();
+
+        assertEquals(1, tags.size());
+        t = tags.get(0);
+        assertEquals("@a", t.getText());
+        assertEquals(0, t.getStart());
+        assertEquals(2, t.getLen());
     }
     
     @Test

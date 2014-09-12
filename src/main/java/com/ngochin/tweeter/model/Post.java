@@ -77,18 +77,19 @@ public class Post {
         ArrayList<Tag> tags = new ArrayList<>();
         int start = -1;
         int end = -1;
+        int len = text.length();
         String puntuations = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 
         for (int i = 0; i < text.length(); ++i) {
             char c = text.charAt(i);
+            boolean isPuntuation = puntuations.indexOf(c) != -1;
+            boolean isLastChar = i == len - 1;
 
             if (c == '@') {
                 start = i;
             } else if (start != -1
-                    && (c == ' '
-                    || puntuations.indexOf(c) != -1
-                    || i == text.length() - 1)) {
-                end = i + (i == text.length() - 1 ? 1 : 0);
+                    && (c == ' ' || isPuntuation || isLastChar)) {
+                end = i + (isLastChar && !isPuntuation ? 1 : 0);
 
                 Tag t = new Tag();
                 t.setText(text.substring(start, end));
