@@ -10,44 +10,56 @@
 <%-- The list of normal or fragment attributes can be specified here: --%>
 <%@attribute name="title"%>
 
+<c:set var="ctxPath" value="${pageContext.servletContext.contextPath}"></c:set>
+<c:set var="user" value="${sessionScope.authUser}"/>
+
 <%-- any content can be specified here e.g.: --%>
-<html>
+<html lang="en">
     <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
         <title>${title}</title>
-        <style>
-        .post {
-            margin-bottom: 20px;
-        }
-            
-        .post .username {
-            font-size: 150%;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-            
-        .post .post-time-stamp {
-            font-size: 80%;
-            margin-bottom: 10px;
-        }
-            
-        .post .post-content {
-            margin-bottom: 10px;
-        }
-        </style>
+        
+        <link href="${ctxPath}/static/css/bootstrap.min.css" rel="stylesheet">
+        <link href="${ctxPath}/static/css/tweeter.css" rel="stylesheet">
+        
     </head>
     <body>
-        <c:set var="user" value="${sessionScope.authUser}"/>
-        <a href="${pageContext.servletContext.contextPath}">Home</a>
-        <a href="${pageContext.servletContext.contextPath}/user/${user.getUserId()}">${user.getFullName()}</a>
-        <a href="${pageContext.servletContext.contextPath}/notification/">${user.getNotifications().size()} Unread Notification(s)</a>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="${ctxPath}">Tweeter</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="${ctxPath}">Home</a></li>
+                        <li><a href="${ctxPath}/user/${user.getUserId()}">${user.getFullName()}</a></li>
+                        <li><a href="${ctxPath}/notification/">${user.getNotifications().size()} Unread Notification(s)</a></li>
+                        <c:if test="${pageContext.request.isUserInRole('admin')}">
+                            <li><a href="${ctxPath}/admin">Admin</a></li>
+                        </c:if>
+                            
+                        <li><form action="${pageContext.servletContext.contextPath}/logout">
+                            <input type="submit" value="Logout" />
+                        </form></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+        
+        <div class="container">
+            <jsp:doBody></jsp:doBody>
+        </div>
 
-        <c:if test="${pageContext.request.isUserInRole('admin')}">
-            <a href="${pageContext.servletContext.contextPath}/admin">Admin</a>
-        </c:if>
-
-        <form action="${pageContext.servletContext.contextPath}/logout">
-            <input type="submit" value="Logout" />
-        </form>
-        <jsp:doBody></jsp:doBody>
+        <script src="${ctxPath}/static/js/jquery.min.js"></script>
+        <script src="${ctxPath}/static/js/bootstrap.min.js"></script>
     </body>
 </html>

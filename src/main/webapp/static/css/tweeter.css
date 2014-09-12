@@ -1,0 +1,22 @@
+body {
+    padding-top: 50px;
+}
+
+.post {
+    margin-bottom: 20px;
+}
+
+.post .username {
+    font-size: 150%;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.post .post-time-stamp {
+    font-size: 80%;
+    margin-bottom: 10px;
+}
+
+.post .post-content {
+    margin-bottom: 10px;
+}
