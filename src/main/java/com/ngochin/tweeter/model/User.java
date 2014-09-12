@@ -26,7 +26,7 @@ public class User {
     }
 
     public String getFullName() {
-        return fullName;
+        return fullName != null ? fullName : userId;
     }
 
     public void setFullName(String fullName) {
