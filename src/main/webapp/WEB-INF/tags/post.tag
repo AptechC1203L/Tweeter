@@ -9,10 +9,11 @@
 
 <%-- The list of normal or fragment attributes can be specified here: --%>
 <%@attribute name="post" type="com.ngochin.tweeter.model.Post" required="true"%>
+<c:set var="ctxPath" value="${pageContext.servletContext.contextPath}"/>
 
 <div class="post">
     <div class="username">
-        <a href="${pageContext.servletContext.contextPath}/user/${post.getUsername()}">${post.getPoster().getFullName()}</a>
+        <a href="${ctxPath}/user/${post.getUsername()}">${post.getPoster().getFullName()}</a>
     </div>
         <div class="post-time-stamp">${applicationScope.prettyTime.format(post.getTimestamp())}</div>
         <div class="post-content">
@@ -22,7 +23,7 @@
                         ${fragment}
                     </c:when>
                     <c:when test="${fragment.getClass().getSimpleName() == 'User'}">
-                        <a href="${pageContext.servletContext.contextPath}/user/${fragment.getUserId()}">@${fragment.getFullName()}</a>
+                        <a href="${ctxPath}/user/${fragment.getUserId()}">@${fragment.getFullName()}</a>
                     </c:when>
                     <c:otherwise>
                     </c:otherwise>
@@ -35,7 +36,7 @@
         Comment from ${comment.getUser().getFullName()}: ${comment.getText()}<br/>
     </c:forEach>
 
-    <form action="${pageContext.servletContext.contextPath}/comments" method="POST">
+    <form action="${ctxPath}/comments" method="POST">
         <input type="text" name="text" value="" />
         <input type="submit" value="Comment" />
         <input type="hidden" name="postId" value="${post.getId()}"/>
