@@ -1,5 +1,6 @@
 body {
     padding-top: 50px;
+    margin-top: 50px;
 }
 
 .post {
@@ -12,9 +13,10 @@ body {
     margin-bottom: 10px;
 }
 
-.post .post-time-stamp {
+.post a.post-time-stamp:link {
     font-size: 80%;
     margin-bottom: 10px;
+    color: #777;
 }
 
 .post .post-content {

@@ -27,7 +27,7 @@
         
     </head>
     <body>
-        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -39,17 +39,16 @@
                     <a class="navbar-brand" href="${ctxPath}">Tweeter</a>
                 </div>
                 <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="${ctxPath}">Home</a></li>
+                    <ul class="nav navbar-nav navbar-right">
                         <li><a href="${ctxPath}/user/${user.getUserId()}">${user.getFullName()}</a></li>
                         <li><a href="${ctxPath}/notification/">${user.getNotifications().size()} Unread Notification(s)</a></li>
                         <c:if test="${pageContext.request.isUserInRole('admin')}">
                             <li><a href="${ctxPath}/admin">Admin</a></li>
                         </c:if>
-                            
-                        <li><form action="${pageContext.servletContext.contextPath}/logout">
-                            <input type="submit" value="Logout" />
-                        </form></li>
+                        
+                        <form action="${pageContext.servletContext.contextPath}/logout" class="navbar-form navbar-right">
+                            <input type="submit" class="btn btn-default" value="Logout" />
+                        </form>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>

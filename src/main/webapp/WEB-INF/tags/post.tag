@@ -11,12 +11,15 @@
 <%@attribute name="post" type="com.ngochin.tweeter.model.Post" required="true"%>
 <c:set var="ctxPath" value="${pageContext.servletContext.contextPath}"/>
 
-<div class="post">
-    <div class="username">
-        <a href="${ctxPath}/user/${post.getUsername()}">${post.getPoster().getFullName()}</a>
+<div class="post panel panel-default">
+    <div class="panel-heading">
+        <a class="username" href="${ctxPath}/user/${post.getUsername()}">${post.getPoster().getFullName()}</a>
+        <p>
+            <a class="post-time-stamp" href="${ctxPath}/post/${post.getId()}">${applicationScope.prettyTime.format(post.getTimestamp())}</a>
+        </p>
     </div>
-    <div class="post-time-stamp">${applicationScope.prettyTime.format(post.getTimestamp())}</div>
-    <div class="post-content">
+
+    <div class="post-content panel-body">
         <c:forEach var="fragment" items="${post.getContentFragments()}">
             <c:choose>
                 <c:when test="${fragment.getClass().getSimpleName() == 'String'}">
@@ -32,13 +35,21 @@
         </c:forEach>
     </div>
 
-    <c:forEach var="comment" items="${post.getComments()}">
-        Comment from ${comment.getUser().getFullName()}: ${comment.getText()}<br/>
-    </c:forEach>
+    <div class="panel-footer">
 
-    <form action="${ctxPath}/comments" method="POST">
-        <input type="text" name="text" value="" />
-        <input type="submit" value="Comment" />
-        <input type="hidden" name="postId" value="${post.getId()}"/>
-    </form>
+        <ul class="list-group">
+            <c:forEach var="comment" items="${post.getComments()}">
+                <li class="list-group-item">${comment.getUser().getFullName()}<br/> ${comment.getText()}</li>
+            </c:forEach>
+        </ul>
+
+
+        <form role="form" action="${ctxPath}/comments" method="POST">
+            <div class="form-group">
+                <textarea name="text" rows="1"></textarea>
+            </div>
+            <input type="submit" class="btn btn-default btn-sm" value="Reply" />
+            <input type="hidden" name="postId" value="${post.getId()}"/>
+        </form>
+    </div>
 </div>
