@@ -16,9 +16,11 @@
         </c:when>
         <c:otherwise>
             <c:forEach var="noti" items="${notis}">
-                <div>
-                    <a href="${noti.getId()}">${noti.getMessage()}</a>
-                    ${applicationScope.prettyTime.format(noti.getCreationTime())}
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <a href="${noti.getId()}">${noti.getMessage()}</a>
+                        <span class="pull-right">${applicationScope.prettyTime.format(noti.getCreationTime())}</span>
+                    </div>
                 </div>
             </c:forEach>
         </c:otherwise>
