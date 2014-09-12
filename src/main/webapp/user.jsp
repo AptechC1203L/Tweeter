@@ -9,6 +9,8 @@
 <!DOCTYPE html>
 
 <h:master title="${user.getFullName()}'s Homepage">
+    <h2>${user.getFullName()}'s Homepage</h2>
+    <hr/>
     <c:if test="${user.getUserId() == authUser.getUserId()}">
         <h:postBox/>
     </c:if>
