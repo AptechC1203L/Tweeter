@@ -7,10 +7,13 @@
 package com.ngochin.tweeter.controller;
 
 import com.ngochin.tweeter.model.DaoFactory;
+import com.ngochin.tweeter.model.Notification;
+import com.ngochin.tweeter.model.NotificationDao;
 import com.ngochin.tweeter.model.Post;
+import com.ngochin.tweeter.model.User;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -75,12 +78,29 @@ public class PostServlet extends HttpServlet {
         String postContent = request.getParameter("postContent");
 
         if (!(postContent == null || postContent.isEmpty())) {
+            DaoFactory f = (DaoFactory) getServletContext().getAttribute("daoFactory");
+            
             Post p = new Post();
             p.setText(postContent);
             p.setUsername(request.getRemoteUser());
+            p.setUserDao(f.getUserDao());
+            
+            NotificationDao nDao = f.getNotificationDao();
+            Post addedPost = f.getPostDao().addPost(p);
+            
+            List<User> taggedUsers = p.getTaggedUsers();
+            if (taggedUsers.size() > 0) {
+                for (User u : taggedUsers) {
+                    if (!u.getUserId().equals(request.getRemoteUser())) {
+                        Notification n = new Notification();
+                        n.setMessage(p.getPoster().getFullName() + " tagged you in a post.");
+                        n.setUsername(u.getUserId());
+                        n.setLink("/post/" + Integer.toString(addedPost.getId()));
 
-            DaoFactory f = (DaoFactory) getServletContext().getAttribute("daoFactory");
-            f.getPostDao().addPost(p);
+                        nDao.addNotification(n);
+                    }
+                }
+            }
         }
 
         response.sendRedirect(request.getHeader("referer"));
