@@ -8,5 +8,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <h:master title="Not Found">
-    Gotcha!
+    Sorry. The page you are trying to access doesn't exist.
 </h:master>
