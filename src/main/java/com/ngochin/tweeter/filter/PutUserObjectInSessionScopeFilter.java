@@ -32,7 +32,6 @@ public class PutUserObjectInSessionScopeFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("filtering");
         if (request instanceof HttpServletRequest) {
             HttpServletRequest r = (HttpServletRequest) request;
             DaoFactory daoFactory = new DaoFactory();
