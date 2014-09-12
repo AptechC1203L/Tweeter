@@ -39,7 +39,10 @@
 
         <ul class="list-group">
             <c:forEach var="comment" items="${post.getComments()}">
-                <li class="list-group-item">${comment.getUser().getFullName()}<br/> ${comment.getText()}</li>
+                <li class="list-group-item">
+                    <a href="${ctxPath}/user/${comment.getUser().getUserId()}">${comment.getUser().getFullName()}</a>:
+                    ${comment.getText()}
+                </li>
             </c:forEach>
         </ul>
 
