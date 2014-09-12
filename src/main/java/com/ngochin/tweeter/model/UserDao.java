@@ -120,6 +120,7 @@ public class UserDao {
         u.setFullName(fullName);
         u.setPassword(password);
         u.setPostDao(factory.getPostDao());
+        u.setNotificationDao(factory.getNotificationDao());
         
         return u;
     }

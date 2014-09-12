@@ -19,6 +19,7 @@ public class User {
     private String password;
     private List<String> roles;
     private PostDao postDao;
+    private NotificationDao notiDao;
     
     public User() {
         this.roles = new ArrayList<>();
@@ -69,8 +70,16 @@ public class User {
     public void setPostDao(PostDao postDao) {
         this.postDao = postDao;
     }
-    
+
+    public void setNotificationDao(NotificationDao notiDao) {
+        this.notiDao = notiDao;
+    }
+
     public List<Post> getPosts() {
         return postDao.getPostsFromUser(userId);
+    }
+    
+    public List<Notification> getNotifications() {
+        return notiDao.getNotificationsFromUser(userId);
     }
 }

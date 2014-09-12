@@ -45,4 +45,8 @@ public class DaoFactory {
     public UserDao getUserDao() {
         return new UserDao(ds, this);
     }
+    
+    public NotificationDao getNotificationDao() {
+        return new NotificationDao(ds, this);
+    }
 }
