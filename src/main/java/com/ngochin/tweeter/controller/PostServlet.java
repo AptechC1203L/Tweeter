@@ -51,10 +51,13 @@ public class PostServlet extends HttpServlet {
 
                     RequestDispatcher rd = request.getRequestDispatcher("/single-post.jsp");
                     rd.forward(request, response);
+                    return;
                 }
             } catch (NumberFormatException e) {
+                // Fallthrough
             }
         }
+        
         response.sendRedirect(getServletContext().getContextPath());
     }
 

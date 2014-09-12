@@ -63,6 +63,7 @@ public class PostServletTest {
         
         verify(req).setAttribute("post", p);
         verify(rd).forward(req, res);
+        verify(res, never()).sendRedirect(anyString());
     }
     
     @Test
