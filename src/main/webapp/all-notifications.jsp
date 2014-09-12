@@ -18,7 +18,7 @@
             <c:forEach var="noti" items="${notis}">
                 <div>
                     <a href="${noti.getId()}">${noti.getMessage()}</a>
-                    ${noti.getCreationTime()}
+                    ${applicationScope.prettyTime.format(noti.getCreationTime())}
                 </div>
             </c:forEach>
         </c:otherwise>
