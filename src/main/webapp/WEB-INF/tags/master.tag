@@ -39,6 +39,7 @@
         <c:set var="user" value="${sessionScope.authUser}"/>
         <a href="${pageContext.servletContext.contextPath}">Home</a>
         <a href="${pageContext.servletContext.contextPath}/user/${user.getUserId()}">${user.getFullName()}</a>
+        <a href="${pageContext.servletContext.contextPath}/notification/">${user.getNotifications().size()} Unread Notification(s)</a>
 
         <c:if test="${pageContext.request.isUserInRole('admin')}">
             <a href="${pageContext.servletContext.contextPath}/admin">Admin</a>
