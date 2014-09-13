@@ -31,6 +31,7 @@ public class LogoutServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.logout();
+        request.getSession().removeAttribute("authUser");
         response.sendRedirect(getServletContext().getContextPath());
     }
 
