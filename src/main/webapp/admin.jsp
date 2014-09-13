@@ -34,7 +34,7 @@
 
         <select multiple name="roles" class="form-control" >
             <option>admin</option>
-            <option>user</option>
+            <option selected>user</option>
         </select>
         <br/>
         <input type="submit" class="btn btn-default btn-lg" value="Create" />
