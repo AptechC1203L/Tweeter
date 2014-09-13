@@ -46,7 +46,7 @@ public class PostServletTest {
     @Mock NotificationDao notiDao;
     @Mock UserDao userDao;
     @Mock RequestDispatcher rd;
-    final String ctxPath = "/Tweeter/";
+    final String ctxPath = "/Tweeter";
     
     public PostServletTest() {
     }
