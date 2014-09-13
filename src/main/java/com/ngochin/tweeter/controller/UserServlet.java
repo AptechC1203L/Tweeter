@@ -47,14 +47,19 @@ public class UserServlet extends HttpServlet {
             userName = "";
         }
 
-        DaoFactory daoFactory = new DaoFactory();
-        User authenticatedUser = (User) request.getAttribute("authUser");
+        DaoFactory daoFactory = (DaoFactory) getServletContext().getAttribute("daoFactory");
+        User authenticatedUser = (User) request.getSession().getAttribute("authUser");
 
-        User u;
         if (userName.isEmpty()) {
-            u = authenticatedUser;
-        } else {
-            u = daoFactory.getUserDao().getUser(userName);
+            response.sendRedirect(getServletContext().getContextPath() + "/user/" + authenticatedUser.getUserId());
+            return;
+        }
+        
+        User u = daoFactory.getUserDao().getUser(userName);
+
+        if (u == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
         }
 
         List<Post> posts = daoFactory.getPostDao().getPostsFromUser(u.getUserId());
