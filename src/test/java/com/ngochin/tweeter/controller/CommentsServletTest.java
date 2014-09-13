@@ -106,13 +106,26 @@ public class CommentsServletTest extends GenericServletTest {
         when(userDao.getUser("james")).thenReturn(owner);
         when(userDao.getUser("mike")).thenReturn(fstCommenter);
         when(userDao.getUser("taggee")).thenReturn(taggee);
+        when(userDao.getUser(authUser.getUserId())).thenReturn(authUser);
         
-        // There was a previous comment
+        // There were some previous comments
         Comment firstComment = new Comment();
+        Comment secondComment = new Comment();
+        Comment thirdComment = new Comment();
+        Comment fourthComment = new Comment();
+        Comment fifthComment = new Comment();
         firstComment.setUserId(fstCommenter.getUserId());
+        secondComment.setUserId(owner.getUserId());
+        thirdComment.setUserId(fstCommenter.getUserId());
+        fourthComment.setUserId(taggee.getUserId());
+        fifthComment.setUserId(authUser.getUserId());
 
         ArrayList<Comment> comments = new ArrayList<>();
         comments.add(firstComment);
+        comments.add(secondComment);
+        comments.add(thirdComment);
+        comments.add(fourthComment);
+        comments.add(fifthComment);
 
         when(p.getComments()).thenReturn(comments);
         
