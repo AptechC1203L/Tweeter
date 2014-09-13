@@ -66,7 +66,10 @@ public class AdminServlet extends HttpServlet {
                 // FIXME: Digest?
                 u.setPassword(password);
 
-                userDao.addUser(u);
+                boolean ok = userDao.addUser(u);
+                if (!ok) {
+                    request.setAttribute("error", "Something wrong happened...");
+                }
             }
         }
 
