@@ -8,6 +8,7 @@ package com.ngochin.tweeter.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -88,5 +89,25 @@ public class User {
     public static boolean isValidUsername(String username) {
         return username.length() <= MAX_USERNAME_LEN 
                 && Pattern.matches("^[A-Za-z0-9_.]+$", username);
+    }
+
+    @Override
+    public int hashCode() {
+        return userId.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (!Objects.equals(this.userId, other.userId)) {
+            return false;
+        }
+        return true;
     }
 }
