@@ -43,7 +43,7 @@ public class PostDao {
         try (Connection conn = ds.getConnection();
                 PreparedStatement insertPostQuery = conn.prepareStatement(
                         "insert into posts (user_name, creation_time, content) "
-                        + "values (?, datetime('now', 'localtime'), ?");) {
+                        + "values (?, datetime('now', 'localtime'), ?)");) {
 
             insertPostQuery.setString(1, p.getUsername());
             insertPostQuery.setString(2, p.getText());
