@@ -6,17 +6,8 @@
 
 package com.ngochin.tweeter.controller;
 
-import com.ngochin.tweeter.model.DaoFactory;
-import com.ngochin.tweeter.model.NotificationDao;
-import com.ngochin.tweeter.model.PostDao;
 import com.ngochin.tweeter.model.User;
-import com.ngochin.tweeter.model.UserDao;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,34 +20,19 @@ import org.mockito.runners.MockitoJUnitRunner;
  * @author chin
  */
 @RunWith(MockitoJUnitRunner.class)
-public class UserServletTest {
+public class UserServletTest extends GenericServletTest {
 
     @Mock UserServlet us;
-    @Mock HttpServletRequest req;
-    @Mock HttpServletResponse res;
-    @Mock ServletContext ctx;
-    @Mock DaoFactory f;
-    @Mock PostDao postDao;
-    @Mock NotificationDao notiDao;
-    @Mock UserDao userDao;
-    @Mock RequestDispatcher rd;
-    @Mock HttpSession session;
-    final String ctxPath = "/Tweeter";
     
     public UserServletTest() {
     }
     
     @Before
+    @Override
     public void setup() throws Exception {
         when(us.getServletContext()).thenReturn(ctx);
-        when(ctx.getAttribute("daoFactory")).thenReturn(f);
-        when(f.getPostDao()).thenReturn(postDao);
-        when(f.getUserDao()).thenReturn(userDao);
-        when(f.getNotificationDao()).thenReturn(notiDao);
-        when(req.getRequestDispatcher(anyString())).thenReturn(rd);
         doCallRealMethod().when(us).processRequest(req, res);
-        when(ctx.getContextPath()).thenReturn(ctxPath);
-        when(req.getSession()).thenReturn(session);
+        super.setup();
     }
 
     /**
