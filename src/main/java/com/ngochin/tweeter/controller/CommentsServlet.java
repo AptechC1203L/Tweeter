@@ -90,7 +90,7 @@ public class CommentsServlet extends HttpServlet {
 
             daoFactory.getCommentDao().addComment(c);
         }
-        
+
         response.sendRedirect(request.getHeader("referer"));
     }
 
