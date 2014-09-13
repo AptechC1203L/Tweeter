@@ -42,7 +42,7 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="${ctxPath}/user/${user.getUserId()}">${user.getFullName()}</a></li>
-                        <li><a href="${ctxPath}/notification/">${user.getNotifications().size()} Unread Notification(s)</a></li>
+                        <li><a href="${ctxPath}/notification/"><span class="badge">${user.getNotifications().size()}</span></a></li>
                         <c:if test="${pageContext.request.isUserInRole('admin')}">
                             <li><a href="${ctxPath}/admin">Admin</a></li>
                         </c:if>
