@@ -33,23 +33,15 @@ import org.mockito.stubbing.Answer;
  * @author chin
  */
 @RunWith(MockitoJUnitRunner.class)
-public class HomeServletTest {
+public class HomeServletTest extends GenericServletTest {
     
     @Mock HomeServlet hs;
-    @Mock HttpServletRequest req;
-    @Mock HttpServletResponse res;
-    @Mock ServletContext ctx;
-    @Mock DaoFactory f;
-    @Mock PostDao postDao;
-    @Mock RequestDispatcher rd;
     
     @Before
-    public void setup() throws ServletException, IOException {
-        when(ctx.getAttribute("daoFactory")).thenReturn(f);
+    public void setup() throws Exception {
         when(hs.getServletContext()).thenReturn(ctx);
-        when(f.getPostDao()).thenReturn(postDao);
-        when(req.getRequestDispatcher(anyString())).thenReturn(rd);
         doCallRealMethod().when(hs).processRequest(req, res);
+        super.setup();
     }
 
     /**
