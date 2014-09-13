@@ -106,8 +106,13 @@ public class CommentsServlet extends HttpServlet {
             for (User u : taggedUsers) {
                 Notification n = new Notification();
 
-                n.setMessage(String.format("%s left a comment on %s's post that you are tagged in.",
-                        commentUser.getFullName(), poster.getFullName()));
+                if (commentUser.getUserId().equals(poster.getUserId())) {
+                    n.setMessage(String.format("%s left a comment on their post that you are tagged in.",
+                            commentUser.getFullName()));
+                } else {
+                    n.setMessage(String.format("%s left a comment on %s's post that you are tagged in.",
+                            commentUser.getFullName(), poster.getFullName()));
+                }
 
                 n.setLink("/post/" + Integer.toString(postId));
                 n.setUsername(u.getUserId());
