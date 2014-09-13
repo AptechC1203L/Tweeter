@@ -26,27 +26,19 @@ import org.mockito.runners.MockitoJUnitRunner;
  * @author chin
  */
 @RunWith(MockitoJUnitRunner.class)
-public class NotificationServletTest {
+public class NotificationServletTest extends GenericServletTest {
     
     @Mock NotificationServlet ns;
-    @Mock HttpServletRequest request;
-    @Mock HttpServletResponse response;
-    @Mock RequestDispatcher rd;
-    @Mock ServletContext ctx;
-    @Mock DaoFactory f;
-    @Mock NotificationDao notiDao;
-    String ctxPath = "/Tweeter";
 
     public NotificationServletTest() {
     }
     
     @Before
+    @Override
     public void setup() throws Exception {
-        doCallRealMethod().when(ns).processRequest(request, response);
         when(ns.getServletContext()).thenReturn(ctx);
-        when(ctx.getAttribute("daoFactory")).thenReturn(f);
-        when(ctx.getContextPath()).thenReturn(ctxPath);
-        when(f.getNotificationDao()).thenReturn(notiDao);
+        doCallRealMethod().when(ns).processRequest(req, res);
+        super.setup();
     }
 
     /**
@@ -54,14 +46,14 @@ public class NotificationServletTest {
      */
     @Test
     public void testShowAllNotifications() throws Exception {
-        when(request.getPathInfo()).thenReturn("/");
-        when(request.getRequestDispatcher(anyString())).thenReturn(rd);
+        when(req.getPathInfo()).thenReturn("/");
+        when(req.getRequestDispatcher(anyString())).thenReturn(rd);
         
-        ns.processRequest(request, response);
+        ns.processRequest(req, res);
 
         // Should forward to /all-notifications.jsp
-        verify(request).getRequestDispatcher("/all-notifications.jsp");
-        verify(rd).forward(request, response);
+        verify(req).getRequestDispatcher("/all-notifications.jsp");
+        verify(rd).forward(req, res);
     }
     
     @Test
@@ -71,13 +63,13 @@ public class NotificationServletTest {
         Notification n = new Notification();
         n.setLink(link);
 
-        when(request.getPathInfo()).thenReturn("/1");
+        when(req.getPathInfo()).thenReturn("/1");
         when(notiDao.getNotification(1)).thenReturn(n);
 
-        ns.processRequest(request, response);
+        ns.processRequest(req, res);
 
         // Should redirect to the link in the notification
-        verify(response).sendRedirect(ctxPath + link);
+        verify(res).sendRedirect(ctxPath + link);
         
         // And mark it as read
         verify(notiDao).saveNotification(n);
