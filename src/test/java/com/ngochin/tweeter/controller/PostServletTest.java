@@ -35,33 +35,20 @@ import org.mockito.stubbing.Answer;
  * @author chin
  */
 @RunWith(MockitoJUnitRunner.class)
-public class PostServletTest {
+public class PostServletTest extends GenericServletTest {
     
     @Mock PostServlet ps;
-    @Mock HttpServletRequest req;
-    @Mock HttpServletResponse res;
-    @Mock ServletContext ctx;
-    @Mock DaoFactory f;
-    @Mock PostDao postDao;
-    @Mock NotificationDao notiDao;
-    @Mock UserDao userDao;
-    @Mock RequestDispatcher rd;
-    final String ctxPath = "/Tweeter";
     
     public PostServletTest() {
     }
     
     @Before
-    public void setup() throws ServletException, IOException {
+    @Override
+    public void setup() throws Exception {
         when(ps.getServletContext()).thenReturn(ctx);
-        when(ctx.getAttribute("daoFactory")).thenReturn(f);
-        when(f.getPostDao()).thenReturn(postDao);
-        when(f.getUserDao()).thenReturn(userDao);
-        when(f.getNotificationDao()).thenReturn(notiDao);
-        when(req.getRequestDispatcher(anyString())).thenReturn(rd);
         doCallRealMethod().when(ps).doGet(req, res);
         doCallRealMethod().when(ps).doPost(req, res);
-        when(ctx.getContextPath()).thenReturn(ctxPath);
+        super.setup();
     }
 
     @Test
