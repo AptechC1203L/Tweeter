@@ -5,7 +5,7 @@
 <h:master title="Tweeter Users">
     <form action="#" role="form" method="POST">
         <legend>
-            Create new user
+            Create a new user
         </legend>
         
         <c:if test="${not empty error}">
@@ -40,6 +40,7 @@
         <input type="submit" class="btn btn-default btn-lg" value="Create" />
     </form>
 
+    <hr/>
     <table class="table table-striped">
         <thead>
             <tr>
