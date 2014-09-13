@@ -79,9 +79,16 @@ public class CommentsServlet extends HttpServlet {
                 User u = daoFactory.getUserDao().getUser(userId);
                 Notification n = new Notification();
 
-                n.setMessage(
-                        String.format("%s left a comment on %s's post.",
-                                u.getFullName(), p.getPoster().getFullName()));
+                if (commentUser.getUserId().equals(p.getPoster().getUserId())) {
+                    n.setMessage(
+                            String.format("%s left a comment on their post.",
+                                    commentUser.getFullName()));
+                } else {
+                    n.setMessage(
+                            String.format("%s left a comment on %s's post.",
+                                    commentUser.getFullName(), p.getPoster().getFullName()));
+                }
+
                 n.setLink("/post/" + Integer.toString(postId));
                 n.setUsername(userId);
 
