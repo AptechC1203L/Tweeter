@@ -6,13 +6,7 @@
 
 package com.ngochin.tweeter.controller;
 
-import com.ngochin.tweeter.model.DaoFactory;
 import com.ngochin.tweeter.model.Notification;
-import com.ngochin.tweeter.model.NotificationDao;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;

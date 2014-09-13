@@ -6,18 +6,10 @@
 
 package com.ngochin.tweeter.controller;
 
-import com.ngochin.tweeter.model.DaoFactory;
 import com.ngochin.tweeter.model.Post;
-import com.ngochin.tweeter.model.PostDao;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;

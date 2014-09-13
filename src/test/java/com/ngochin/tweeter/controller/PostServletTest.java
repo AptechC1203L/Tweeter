@@ -6,26 +6,25 @@
 
 package com.ngochin.tweeter.controller;
 
-import com.ngochin.tweeter.model.DaoFactory;
 import com.ngochin.tweeter.model.Notification;
-import com.ngochin.tweeter.model.NotificationDao;
 import com.ngochin.tweeter.model.Post;
-import com.ngochin.tweeter.model.PostDao;
 import com.ngochin.tweeter.model.User;
-import com.ngochin.tweeter.model.UserDao;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
