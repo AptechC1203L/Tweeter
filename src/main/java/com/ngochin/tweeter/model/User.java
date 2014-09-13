@@ -8,6 +8,7 @@ package com.ngochin.tweeter.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -20,6 +21,7 @@ public class User {
     private List<String> roles;
     private PostDao postDao;
     private NotificationDao notiDao;
+    public static int MAX_USERNAME_LEN = 25;
     
     public User() {
         this.roles = new ArrayList<>();
@@ -48,7 +50,7 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     public void addRole(String role) {
         this.roles.add(role);
     }
@@ -81,5 +83,10 @@ public class User {
     
     public List<Notification> getNotifications() {
         return notiDao.getNotificationsFromUser(userId);
+    }
+
+    boolean hasValidUsername() {
+        return userId.length() <= MAX_USERNAME_LEN 
+                && Pattern.matches("^[A-Za-z0-9_.]+$", userId);
     }
 }
