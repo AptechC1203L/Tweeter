@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,13 +34,16 @@ public class NotificationDao {
     }
 
     public boolean addNotification(Notification n) {
-        try (Connection conn = ds.getConnection()) {
-            Statement st = conn.createStatement();
-            int count = st.executeUpdate(
-                    String.format("insert into notifications (user_name, message, creation_time, link, isRead) "
-                            + "values (\"%s\", \"%s\", datetime('now', 'localtime'), \"%s\", 0)",
-                            n.getUsername(), n.getMessage(), n.getLink()));
-            
+        try (Connection conn = ds.getConnection();
+                PreparedStatement insertQuery = conn.prepareStatement(
+                    "insert into notifications (user_name, message, creation_time, link, isRead) "
+                    + "values (?, ?, datetime('now', 'localtime'), ?, 0)");) {
+            insertQuery.setString(1, n.getUsername());
+            insertQuery.setString(2, n.getMessage());
+            insertQuery.setString(3, n.getLink());
+
+            int count = insertQuery.executeUpdate();
+
             return count == 1;
         } catch (SQLException ex) {
             Logger.getLogger(PostDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -76,9 +78,11 @@ public class NotificationDao {
     }
 
     public Notification getNotification(int id) {
-        try (Connection conn = ds.getConnection()) {
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("select * from notifications where id=" + Integer.toString(id));
+        try (Connection conn = ds.getConnection();
+                PreparedStatement singleNotificationQuery = conn.prepareStatement(
+                    "select * from notifications where id=?");) {
+            singleNotificationQuery.setInt(1, id);
+            ResultSet rs = singleNotificationQuery.executeQuery();
             
             while (rs.next()) {
                 return notificationFromRs(rs);
@@ -93,10 +97,11 @@ public class NotificationDao {
     public List<Notification> getNotificationsFromUser(String username) {
         ArrayList<Notification> notifications = new ArrayList<>();
 
-        try (Connection conn = ds.getConnection()) {
-            Statement st = conn.createStatement();
-            ResultSet rs = 
-                st.executeQuery("select * from notifications where isRead=0 and user_name=\"" + username + "\"");
+        try (Connection conn = ds.getConnection();
+                PreparedStatement unreadNotiQuery = conn.prepareStatement(
+                    "select * from notifications where isRead=0 and user_name=?");) {
+            unreadNotiQuery.setString(1, username);
+            ResultSet rs = unreadNotiQuery.executeQuery();
 
             while (rs.next()) {
                 notifications.add(notificationFromRs(rs));
@@ -110,11 +115,13 @@ public class NotificationDao {
     
     public boolean saveNotification(Notification n) {
         // Actually we only update the isRead field.
-        try (Connection conn = ds.getConnection()) {
-            PreparedStatement ps = conn.prepareStatement("update notifications set isRead=? where id=?");
-            ps.setBoolean(1, n.isIsRead());
-            ps.setInt(2, n.getId());
-            int count = ps.executeUpdate();
+        try (Connection conn = ds.getConnection();
+                PreparedStatement updateQuery = conn.prepareStatement(
+                        "update notifications set isRead=? where id=?");) {
+            updateQuery.setBoolean(1, n.isIsRead());
+            updateQuery.setInt(2, n.getId());
+
+            int count = updateQuery.executeUpdate();
             return count == 1;
         } catch (SQLException ex) {
             Logger.getLogger(NotificationDao.class.getName()).log(Level.SEVERE, null, ex);

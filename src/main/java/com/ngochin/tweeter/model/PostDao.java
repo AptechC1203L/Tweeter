@@ -6,7 +6,7 @@
 package com.ngochin.tweeter.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -40,15 +40,20 @@ public class PostDao {
      * @return the added post with ID filled in.
      */
     public Post addPost(Post p) {
-        try (Connection conn = ds.getConnection()) {
-            Statement st = conn.createStatement();
-            int count = st.executeUpdate(
-                    String.format("insert into posts (user_name, creation_time, content) "
-                            + "values (\"%s\", datetime('now', 'localtime'), \"%s\")",
-                            p.getUsername(), p.getText()));
+        try (Connection conn = ds.getConnection();
+                PreparedStatement insertPostQuery = conn.prepareStatement(
+                        "insert into posts (user_name, creation_time, content) "
+                        + "values (?, datetime('now', 'localtime'), ?");) {
+
+            insertPostQuery.setString(1, p.getUsername());
+            insertPostQuery.setString(2, p.getText());
+
+            int count = insertPostQuery.executeUpdate();
             
+            Statement st = conn.createStatement();
+            String selectLastRow = "select * from posts where rowid=last_insert_rowid()";
             if (count == 1) {
-                ResultSet rs = st.executeQuery("select * from posts where rowid=last_insert_rowid()");
+                ResultSet rs = st.executeQuery(selectLastRow);
                 rs.next();
                 return postFromRs(rs);
             }
@@ -83,9 +88,11 @@ public class PostDao {
     }
 
     public Post getPost(int postId) {
-        try (Connection conn = ds.getConnection()) {
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("select * from posts where id=" + Integer.toString(postId));
+        try (Connection conn = ds.getConnection();
+                PreparedStatement postQuery = conn.prepareStatement(
+                        "select * from posts where id=?");) {
+            postQuery.setInt(1, postId);
+            ResultSet rs = postQuery.executeQuery();
             
             while (rs.next()) {
                 return postFromRs(rs);
@@ -101,9 +108,9 @@ public class PostDao {
         ArrayList<Post> posts = new ArrayList<>();
 
         try (Connection conn = ds.getConnection()) {
-            Statement st = conn.createStatement();
-            ResultSet rs = 
-                st.executeQuery("select * from posts where user_name=\"" + username + "\"");
+            PreparedStatement postQuery = conn.prepareStatement("select * from posts where user_name=?");
+            postQuery.setString(1, username);
+            ResultSet rs = postQuery.executeQuery();
 
             while (rs.next()) {
                 posts.add(postFromRs(rs));

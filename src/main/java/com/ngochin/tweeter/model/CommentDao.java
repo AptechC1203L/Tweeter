@@ -7,9 +7,9 @@
 package com.ngochin.tweeter.model;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,12 +31,15 @@ public class CommentDao {
     }
 
     public boolean addComment(Comment c) {
-        try (Connection conn = ds.getConnection()) {
-            Statement st = conn.createStatement();
-            int count = st.executeUpdate(
-                    String.format("insert into comments (user_name, post_id, creation_time, text) "
-                            + "values (\"%s\", \"%d\", datetime('now', 'localtime'), \"%s\")",
-                            c.getUserId(), c.getPostId(), c.getText()));
+        try (Connection conn = ds.getConnection();
+                PreparedStatement insertQuery = conn.prepareStatement(
+                    "insert into comments (user_name, post_id, creation_time, text) "
+                    + "values (?, ?, datetime('now', 'localtime'), ?)");) {
+            insertQuery.setString(1, c.getUserId());
+            insertQuery.setInt(2, c.getPostId());
+            insertQuery.setString(3, c.getText());
+
+            int count = insertQuery.executeUpdate();
             return count == 1;
         } catch (SQLException ex) {
             Logger.getLogger(CommentDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -46,10 +49,12 @@ public class CommentDao {
 
     public List<Comment> getCommentsOnPost(int postId) {
         ArrayList<Comment> commentsOnPost = new ArrayList<>();
-        
-        try (Connection conn = ds.getConnection()) {
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("select * from comments where post_id=" + Integer.toString(postId));
+
+        try (Connection conn = ds.getConnection();
+                PreparedStatement commentQuery = conn.prepareStatement(
+                    "select * from comments where post_id=?");) {
+            commentQuery.setInt(1, postId);
+            ResultSet rs = commentQuery.executeQuery();
 
             while (rs.next()) {
                 commentsOnPost.add(commentFromRs(rs));
