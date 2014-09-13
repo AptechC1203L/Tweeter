@@ -28,6 +28,11 @@
         <location>/errors/403.jsp</location>
     </error-page>
     
+    <error-page>
+        <error-code>500</error-code>
+        <location>/errors/500.jsp</location>
+    </error-page>
+    
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>the-whole-site</web-resource-name>
