@@ -38,6 +38,7 @@
                     </button>
                     <a class="navbar-brand" href="${ctxPath}">Tweeter</a>
                 </div>
+                <c:if test="${not empty sessionScope.authUser}">
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="${ctxPath}/user/${user.getUserId()}">${user.getFullName()}</a></li>
@@ -51,6 +52,7 @@
                         </form>
                     </ul>
                 </div><!--/.nav-collapse -->
+                </c:if>
             </div>
         </div>
         
