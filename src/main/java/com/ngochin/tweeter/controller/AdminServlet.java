@@ -48,12 +48,16 @@ public class AdminServlet extends HttpServlet {
 
             if (username == null || username.isEmpty()) {
                 request.setAttribute("error", "Username cannot be empty!");
+            } else if (userDao.getUser(username) != null) {
+                request.setAttribute("error", "That username has already been used!");
             } else if (password == null || password.isEmpty()) {
                 request.setAttribute("error", "Password cannot be empty!");
             } else if (!password.equals(confirmedPassword)) {
                 request.setAttribute("error", "Passwords do not match!");
             } else if (!User.isValidUsername(username)) {
                 request.setAttribute("error", "Invalid username!");
+            } else if (roles == null) {
+                request.setAttribute("error", "At least one role must be selected!");
             } else {
                 User u = new User();
                 u.setUserId(username);
