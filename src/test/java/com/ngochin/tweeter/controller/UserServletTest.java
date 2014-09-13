@@ -68,9 +68,6 @@ public class UserServletTest extends GenericServletTest {
     
     @Test
     public void testGetNoUser() throws Exception {
-        User authUser = new User();
-        authUser.setUserId("trung");
-
         when(req.getPathInfo()).thenReturn("/");
         when(session.getAttribute("authUser")).thenReturn(authUser);
 
