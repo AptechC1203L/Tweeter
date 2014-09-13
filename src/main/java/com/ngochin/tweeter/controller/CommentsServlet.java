@@ -12,6 +12,7 @@ import com.ngochin.tweeter.model.Notification;
 import com.ngochin.tweeter.model.NotificationDao;
 import com.ngochin.tweeter.model.Post;
 import com.ngochin.tweeter.model.User;
+import com.ngochin.tweeter.model.UserDao;
 import java.io.IOException;
 import java.util.HashSet;
 import javax.servlet.ServletException;
@@ -47,11 +48,14 @@ public class CommentsServlet extends HttpServlet {
             DaoFactory daoFactory = (DaoFactory) getServletContext().getAttribute("daoFactory");
             Post p = daoFactory.getPostDao().getPost(postId);
             User commentUser = (User) request.getSession().getAttribute("authUser");
+            User poster = p.getPoster();
 
+            final NotificationDao notificationDao = daoFactory.getNotificationDao();
+            UserDao userDao = daoFactory.getUserDao();
+            
             c.setText(commentText);
             c.setUserId(commentUser.getUserId());
             c.setPostId(postId);
-            final NotificationDao notificationDao = daoFactory.getNotificationDao();
 
             // If the comment is from a different user than the currently
             // logged in user
@@ -64,39 +68,55 @@ public class CommentsServlet extends HttpServlet {
 
                 notificationDao.addNotification(n);
             }
+            
+            HashSet<User> taggedUsers = new HashSet(p.getTaggedUsers());
+            taggedUsers.remove(poster);
+            taggedUsers.remove(commentUser);
 
             // Create a new notification for each of the previous commenters
-            // not including this commenter and the post owner.
-            HashSet<String> commentedUsers = new HashSet<>();
+            // not including this commenter, the post owner and the tagged users.
+            HashSet<User> commentedUsers = new HashSet<>();
             for (Comment cm : p.getComments()) {
-                commentedUsers.add(cm.getUserId());
+                commentedUsers.add(userDao.getUser(cm.getUserId()));
             }
 
-            commentedUsers.remove(commentUser.getUserId());
-            commentedUsers.remove(p.getUsername());
+            commentedUsers.remove(commentUser);
+            commentedUsers.remove(poster);
+            commentedUsers.removeAll(taggedUsers);
 
-            for (String userId : commentedUsers) {
-                User u = daoFactory.getUserDao().getUser(userId);
+            for (User u : commentedUsers) {
                 Notification n = new Notification();
 
-                if (commentUser.getUserId().equals(p.getPoster().getUserId())) {
+                if (commentUser.getUserId().equals(poster.getUserId())) {
                     n.setMessage(
                             String.format("%s left a comment on their post.",
                                     commentUser.getFullName()));
                 } else {
                     n.setMessage(
                             String.format("%s left a comment on %s's post.",
-                                    commentUser.getFullName(), p.getPoster().getFullName()));
+                                    commentUser.getFullName(), poster.getFullName()));
                 }
 
                 n.setLink("/post/" + Integer.toString(postId));
-                n.setUsername(userId);
+                n.setUsername(u.getUserId());
 
+                notificationDao.addNotification(n);
+            }
+            
+            for (User u : taggedUsers) {
+                Notification n = new Notification();
+
+                n.setMessage(String.format("%s left a comment on %s's post that you are tagged in.",
+                        commentUser.getFullName(), poster.getFullName()));
+
+                n.setLink("/post/" + Integer.toString(postId));
+                n.setUsername(u.getUserId());
                 notificationDao.addNotification(n);
             }
 
             daoFactory.getCommentDao().addComment(c);
         }
+        
 
         response.sendRedirect(request.getHeader("referer"));
     }

@@ -92,16 +92,20 @@ public class CommentsServletTest extends GenericServletTest {
     public void testCreateNotiForAllOtherCommenters() throws Exception {
         User owner = new User();
         User fstCommenter = new User();  // authUser is the 2nd commenter
+        User taggee = new User();
         Post p = mock(Post.class);
 
         owner.setUserId("james");
         fstCommenter.setUserId("mike");
+        taggee.setUserId("taggee");
+
         when(p.getPoster()).thenReturn(owner);
         when(p.getUsername()).thenReturn(owner.getUserId());
         when(p.getId()).thenReturn(0);
         
         when(userDao.getUser("james")).thenReturn(owner);
         when(userDao.getUser("mike")).thenReturn(fstCommenter);
+        when(userDao.getUser("taggee")).thenReturn(taggee);
         
         // There was a previous comment
         Comment firstComment = new Comment();
@@ -111,10 +115,14 @@ public class CommentsServletTest extends GenericServletTest {
         comments.add(firstComment);
 
         when(p.getComments()).thenReturn(comments);
+        
+        ArrayList<User> taggedUsers = new ArrayList<>();
+        taggedUsers.add(taggee);
+        when(p.getTaggedUsers()).thenReturn(taggedUsers);
 
         when(postDao.getPost(0)).thenReturn(p);
         when(req.getParameter("postId")).thenReturn("0");
-        when(req.getParameter("text")).thenReturn("The comment");
+        when(req.getParameter("text")).thenReturn("The comment aimed at @taggee");
 
         final HashMap<String, Integer> notis = new HashMap<>();
 
@@ -136,13 +144,15 @@ public class CommentsServletTest extends GenericServletTest {
 
         cs.processRequest(req, res);
 
-        // The owner and the first commenter each should have exactly one
-        // notification
-        verify(notiDao, times(2)).addNotification(any(Notification.class));
+        // The owner, the first commenter and the tagged user each should have 
+        // exactly one notification
+        verify(notiDao, times(3)).addNotification(any(Notification.class));
         assertTrue(notis.containsKey(owner.getUserId()));
         assertTrue(notis.containsKey(fstCommenter.getUserId()));
+        assertTrue(notis.containsKey(taggee.getUserId()));
         
         assertEquals(1, (int) notis.get(owner.getUserId()));
         assertEquals(1, (int) notis.get(fstCommenter.getUserId()));
+        assertEquals(1, (int) notis.get(taggee.getUserId()));
     }
 }
