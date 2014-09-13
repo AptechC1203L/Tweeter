@@ -52,6 +52,8 @@ public class AdminServlet extends HttpServlet {
                 request.setAttribute("error", "Password cannot be empty!");
             } else if (!password.equals(confirmedPassword)) {
                 request.setAttribute("error", "Passwords do not match!");
+            } else if (!User.isValidUsername(username)) {
+                request.setAttribute("error", "Invalid username!");
             } else {
                 User u = new User();
                 u.setUserId(username);
