@@ -85,8 +85,8 @@ public class User {
         return notiDao.getNotificationsFromUser(userId);
     }
 
-    boolean hasValidUsername() {
-        return userId.length() <= MAX_USERNAME_LEN 
-                && Pattern.matches("^[A-Za-z0-9_.]+$", userId);
+    public static boolean isValidUsername(String username) {
+        return username.length() <= MAX_USERNAME_LEN 
+                && Pattern.matches("^[A-Za-z0-9_.]+$", username);
     }
 }

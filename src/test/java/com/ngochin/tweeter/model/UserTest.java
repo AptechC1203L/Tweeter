@@ -38,15 +38,12 @@ public class UserTest {
             "power_of_the_dash"
         };
 
-        User u = new User();
         for (String username : badUsernames) {
-            u.setUserId(username);
-            assertFalse(u.hasValidUsername());
+            assertFalse(User.isValidUsername(username));
         }
 
         for (String username : goodUsenames) {
-            u.setUserId(username);
-            assertTrue(username, u.hasValidUsername());
+            assertTrue(User.isValidUsername(username));
         }
     }
 }
